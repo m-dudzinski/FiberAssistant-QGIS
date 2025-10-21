@@ -1,0 +1,22 @@
+# Ustaw domyślne zachowanie
+* text=auto eol=lf
+
+# Wymuś traktowanie konkretnych typów plików jako tekst (z konwersją eol)
+*.py text
+*.txt text
+*.md text
+*.json text
+*.qrc text
+*.ui text
+*.qgs text
+*.qgz text
+
+# Pliki binarne - nie ruszaj znaków końca linii
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.dbf binary
+*.shp binary
+*.shx binary

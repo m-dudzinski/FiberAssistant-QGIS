@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CzyszczenieWidget</class>
+ <widget class="QWidget" name="CzyszczenieWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_main">
+   <item>
+    <widget class="QGroupBox" name="settings_groupbox">
+     <property name="title">
+      <string>Ustawienia czyszczenia</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="output_widget_placeholder" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

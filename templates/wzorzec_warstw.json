@@ -1,0 +1,286 @@
+{
+	"layers": [
+		{
+			"name": "kable",
+			"crs": "EPSG:4326",
+			"geometry_type": "Line (MultiLineString)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "id", "type": "string", "length": 255 },
+				{ "name": "nazwa", "type": "string", "length": 255 },
+				{ "name": "poj", "type": "int", "length": 10, "precision": 0 },
+				{
+					"name": "rodzaj",
+					"type": "string",
+					"length": 50,
+					"map_values": [
+						"napowietrzny",
+						"kanałowy",
+						"doziemny",
+						"abonencki napowietrzny",
+						"abonencki doziemny",
+						"abonencki planowany"
+					]
+				},
+				{ "name": "typ", "type": "string", "length": 255 },
+				{ "name": "dl_tras", "type": "double", "length": 20, "precision": 3 },
+				{ "name": "dl_inst", "type": "double", "length": 20, "precision": 3 },
+				{
+					"name": "segment",
+					"type": "string",
+					"length": 50,
+					"map_values": ["magistralny", "rozdzielczy", "abonencki"]
+				},
+				{ "name": "zadanie", "type": "string", "length": 255 },
+				{
+					"name": "trakt",
+					"type": "string",
+					"length": 50,
+					"map_values": [
+						"TD napowietrzny",
+						"TOK napowietrzny",
+						"TOK ziemny",
+						"OPL napowietrzny",
+						"OPL kanalizacja",
+						"GMINA napowietrzny",
+						"RSS kanalizacja",
+						"DSS kanalizacja",
+						"inne"
+					]
+				},
+				{ "name": "pe_poczatk", "type": "string", "length": 255 },
+				{ "name": "pe_koncowy", "type": "string", "length": 255 },
+				{
+					"name": "s_inv_type",
+					"type": "string",
+					"length": 10,
+					"map_values": ["i1", "i2", "i3", "i4", "i5", "i6"]
+				},
+				{
+					"name": "s_status",
+					"type": "string",
+					"length": 20,
+					"map_values": ["s0", "s1", "s2"]
+				},
+				{ "name": "dl_opt", "type": "double", "length": 20, "precision": 3 },
+				{ "name": "projektant", "type": "string", "length": 255 },
+				{ "name": "OLT", "type": "string", "length": 255 },
+				{ "name": "k_milowy", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "X_ADRES", "type": "string", "length": 255 },
+				{ "name": "X_ID_ADRES", "type": "string", "length": 255 },
+				{ "name": "X_MD_SPLIT", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "lista_pa",
+			"crs": "EPSG:4326",
+			"geometry_type": "Point (Point)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "Id_budynku", "type": "string", "length": 255 },
+				{ "name": "Gmina", "type": "string", "length": 255 },
+				{ "name": "Miejscowos", "type": "string", "length": 255 },
+				{ "name": "Ulica", "type": "string", "length": 255 },
+				{ "name": "Numer porz", "type": "string", "length": 50 },
+				{ "name": "Szer [°N]", "type": "double", "length": 20, "precision": 10 },
+				{ "name": "Dlug [°E]", "type": "double", "length": 20, "precision": 10 },
+				{ "name": "Licz_lokal", "type": "int", "length": 10, "precision": 0 },
+				{ "name": "Licz_przed", "type": "int", "length": 10, "precision": 0 },
+				{ "name": "Licz_SED", "type": "int", "length": 10, "precision": 0 },
+				{ "name": "Rodzaj pun", "type": "string", "length": 50, "map_values": ["podstawowy", "dodatkowy"] },
+				{ "name": "Kategoria", "type": "string", "length": 255 },
+				{ "name": "Stawka jed", "type": "double", "length": 20, "precision": 2 },
+				{ "name": "Id_wezla", "type": "string", "length": 255 },
+				{ "name": "Medium tra", "type": "string", "length": 255 },
+				{ "name": "Kamień mi", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "Zadanie", "type": "string", "length": 255 },
+				{ "name": "X_MD_SPLIT", "type": "string", "length": 255 },
+				{ "name": "X_SPL-i-rz", "type": "string", "length": 255 },
+				{ "name": "X_port_olt", "type": "string", "length": 255 },
+				{ "name": "X_ID_TOK", "type": "string", "length": 255 },
+				{ "name": "X_dzialka", "type": "string", "length": 255 },
+				{ "name": "X_dubel", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "punkty_elastycznosci",
+			"crs": "EPSG:4326",
+			"geometry_type": "Point (Point)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "nazwa", "type": "string", "length": 255 },
+				{ "name": "typ", "type": "string", "length": 50, "map_values": ["mufa", "zapas", "szafka", "skrzynka", "ODF"] },
+				{ "name": "rodzaj", "type": "string", "length": 50, "map_values": ["liniowa", "dostępowa"] },
+				{ "name": "l_spl", "type": "int", "length": 10, "precision": 0 },
+				{
+					"name": "spl_i-rz",
+					"type": "string",
+					"length": 50,
+					"map_values": ["1x8", "1x16", "1x32", "1x64", "2x8", "2x16", "2x32", "BRAK"]
+				},
+				{
+					"name": "spl_ii-rz",
+					"type": "string",
+					"length": 50,
+					"map_values": ["1x8", "1x16", "1x32", "1x64", "2x8", "2x16", "2x32", "BRAK"]
+				},
+				{
+					"name": "spl_iii-rz",
+					"type": "string",
+					"length": 50,
+					"map_values": ["1x8", "1x16", "1x32", "1x64", "2x8", "2x16", "2x32", "BRAK"]
+				},
+				{ "name": "terc", "type": "string", "length": 255 },
+				{ "name": "simc", "type": "string", "length": 255 },
+				{ "name": "ulic", "type": "string", "length": 255 },
+				{ "name": "nr", "type": "string", "length": 50 },
+				{ "name": "geo_szer", "type": "double", "length": 20, "precision": 10 },
+				{ "name": "geo_dl", "type": "double", "length": 20, "precision": 10 },
+				{ "name": "pierw_ele", "type": "string", "length": 255 },
+				{ "name": "adres", "type": "string", "length": 255 },
+				{
+					"name": "status",
+					"type": "string",
+					"length": 50,
+					"map_values": ["projektowany", "nabudowywany", "przebudowa", "istniejący"]
+				},
+				{ "name": "projektant", "type": "string", "length": 255 },
+				{ "name": "model", "type": "string", "length": 255 },
+				{ "name": "zadanie", "type": "string", "length": 255 },
+				{ "name": "OLT", "type": "string", "length": 255 },
+				{ "name": "k_milowy", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "X_MD_SPLIT", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "zakres_splitera",
+			"crs": "EPSG:4326",
+			"geometry_type": "Polygon (MultiPolygon)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "liczba_PA", "type": "int", "length": 10, "precision": 0 },
+				{ "name": "opis", "type": "string", "length": 255 },
+				{
+					"name": "rodzaj",
+					"type": "string",
+					"length": 50,
+					"map_values": ["1x4", "1x8", "1x16", "2x4", "2x8", "2x16", "bez splitera"]
+				},
+				{ "name": "zadanie", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "OLT", "type": "string", "length": 255 },
+				{ "name": "X_SPL-i-rz", "type": "string", "length": 255 },
+				{ "name": "X_port_olt", "type": "string", "length": 255 },
+				{ "name": "X_MD_SPLIT", "type": "string", "length": 255 },
+				{ "name": "id", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "trakt",
+			"crs": "EPSG:4326",
+			"geometry_type": "Line (MultiLineString)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "dl_tras", "type": "double", "length": 20, "precision": 3 },
+				{
+					"name": "trakt",
+					"type": "string",
+					"length": 50,
+					"map_values": [
+						"TD napowietrzny",
+						"TOK napowietrzny",
+						"TOK ziemny",
+						"OPL napowietrzny",
+						"OPL kanalizacja",
+						"GMINA napowietrzny",
+						"RSS kanalizacja",
+						"DSS kanalizacja",
+						"inne"
+					]
+				},
+				{ "name": "uwagi", "type": "string", "length": 255 },
+				{ "name": "id", "type": "string", "length": 255 },
+				{ "name": "kolejny_k", "type": "string", "length": 20, "map_values": ["tak", "nie"] },
+				{ "name": "zadanie", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "OLT", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "obiekty_osłonowe",
+			"crs": "EPSG:4326",
+			"geometry_type": "Line (MultiLineString)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "model", "type": "string", "length": 255 },
+				{ "name": "opis", "type": "string", "length": 255 },
+				{ "name": "rodzaj", "type": "string", "length": 50, "map_values": ["oslonowa", "rurociąg"] },
+				{ "name": "dl_tras", "type": "double", "length": 20, "precision": 3 },
+				{ "name": "dl_inst", "type": "double", "length": 20, "precision": 3 },
+				{ "name": "zadanie", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "OLT", "type": "string", "length": 255 },
+				{ "name": "id", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "obiekty_punktowe",
+			"crs": "EPSG:4326",
+			"geometry_type": "Point (Point)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "nazwa", "type": "string", "length": 255 },
+				{
+					"name": "rodzaj",
+					"type": "string",
+					"length": 50,
+					"map_values": ["słup", "studnia", "inne", "słup planowany", "zasobnik"]
+				},
+				{ "name": "OLT", "type": "string", "length": 255 },
+				{ "name": "model", "type": "string", "length": 255 },
+				{ "name": "status", "type": "string", "length": 20, "map_values": ["proj.", "plan.", "istn.", "wyb."] },
+				{ "name": "zadanie", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 },
+				{ "name": "id", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "zakres_olt",
+			"crs": "EPSG:2180",
+			"geometry_type": "Polygon (MultiPolygon)",
+			"format": "SHP",
+			"attributes": [{ "name": "nazwa", "type": "string", "length": 255 }]
+		},
+		{
+			"name": "zakres_zadania",
+			"crs": "EPSG:4326",
+			"geometry_type": "Polygon (MultiPolygon)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "nazwa", "type": "string", "length": 255 },
+				{ "name": "OLT", "type": "string", "length": 255 },
+				{ "name": "KM", "type": "string", "length": 255 },
+				{ "name": "MR", "type": "string", "length": 255 }
+			]
+		},
+		{
+			"name": "dzialki_niewybudowane",
+			"crs": "EPSG:4326",
+			"geometry_type": "Polygon (MultiPolygon)",
+			"format": "SHP",
+			"attributes": [
+				{ "name": "fid", "type": "string", "length": 255 },
+				{ "name": "identyfika", "type": "string", "length": 255 },
+				{ "name": "nr_dz", "type": "string", "length": 255 },
+				{ "name": "NUMER_OBREBU", "type": "string", "length": 255 },
+				{ "name": "TERYT", "type": "string", "length": 255 },
+				{ "name": "NAZWA_OBREBU", "type": "string", "length": 255 },
+				{ "name": "gmina", "type": "string", "length": 255 },
+				{ "name": "DATA", "type": "string", "length": 50 }
+			]
+		}
+	]
+}

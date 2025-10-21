@@ -1,0 +1,11 @@
+{
+	"layers": [
+		"lista_pa",
+		"kable",
+		"punkty_elastycznosci",
+		"trakt",
+		"obiekty_punktowe",
+		"obiekty_osłonowe",
+		"zakres_splitera"
+	]
+}

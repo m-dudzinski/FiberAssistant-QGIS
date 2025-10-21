@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DanePodstawoweProjektuWidget</class>
+ <widget class="QWidget" name="DanePodstawoweProjektuWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_main">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_zakres">
+     <item>
+      <widget class="QLabel" name="label_zakres">
+       <property name="text">
+        <string>Wybierz zakres:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="zakres_combo_box">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="refresh_button">
+       <property name="toolTip">
+        <string>Odśwież listę zakresów</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/options_icons/options_icon_refresh.png</normaloff>:/icons/options_icons/options_icon_refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_identyfikacja_zadania">
+       <attribute name="title">
+        <string>Identyfikacja zadania</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_tab">
+        <item>
+         <widget class="QGroupBox" name="groupBox_dane">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>160</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Dane do uzupełnienia</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_dane">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_zadanie">
+             <property name="text">
+              <string>Nazwa zadania:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="zadanie_line_edit"/>
+           </item>
+           <item row="0" column="2">
+            <widget class="QCheckBox" name="zadanie_checkbox">
+             <property name="text">
+              <string>Pomiń</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_olt">
+             <property name="text">
+              <string>Nazwa OLT:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="olt_line_edit"/>
+           </item>
+           <item row="1" column="2">
+            <widget class="QCheckBox" name="olt_checkbox">
+             <property name="text">
+              <string>Pomiń</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_mr">
+             <property name="text">
+              <string>Numer MR:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="mr_line_edit"/>
+           </item>
+           <item row="2" column="2">
+            <widget class="QCheckBox" name="mr_checkbox">
+             <property name="text">
+              <string>Pomiń</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_km">
+             <property name="text">
+              <string>Numer KM:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="km_line_edit"/>
+           </item>
+           <item row="3" column="2">
+            <widget class="QCheckBox" name="km_checkbox">
+             <property name="text">
+              <string>Pomiń</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_projektant">
+             <property name="text">
+              <string>Projektant:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="projektant_line_edit"/>
+           </item>
+           <item row="4" column="2">
+            <widget class="QCheckBox" name="projektant_checkbox">
+             <property name="text">
+              <string>Pomiń</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_bottom_groups">
+          <item>
+           <widget class="QGroupBox" name="groupBox_warstwy">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>150</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>Wybór warstw</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_warstwy">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_warstwy_radio">
+               <item>
+                <widget class="QRadioButton" name="wszystkie_warstwy_radio">
+                 <property name="text">
+                  <string>Dla wszystkich warstw</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="wybrane_warstwy_radio">
+                 <property name="text">
+                  <string>Dla wybranych warstw</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QScrollArea" name="layers_scroll_area">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>100</width>
+                  <height>100</height>
+                 </rect>
+                </property>
+                <layout class="QGridLayout" name="layers_grid_layout"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_strategia">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>160</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>Strategia aktualizacji</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_strategia">
+             <item>
+              <widget class="QRadioButton" name="nadpisz_radio">
+               <property name="text">
+                <string>Nadpisz istniejące wartości</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="pomijaj_radio">
+               <property name="text">
+                <string>Pomijaj istniejące wartości</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_strategia">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_modele_urzadzen">
+       <attribute name="title">
+        <string>Modele urządzeń</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_tab_modele">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_groups_modele">
+          <item>
+           <widget class="QGroupBox" name="groupBox_kable_modele">
+            <property name="title">
+             <string>Kable</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <layout class="QFormLayout" name="formLayout_kable">
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="cb_kabel_napowietrzny">
+               <property name="text">
+                <string>Napowietrzny:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="le_kabel_napowietrzny">
+               <property name="text">
+                <string>HFCL CMT9</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="cb_kabel_kanalowy">
+               <property name="text">
+                <string>Kanałowy:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="le_kabel_kanalowy">
+               <property name="text">
+                <string>Xmodel_kanałowy</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="cb_kabel_doziemny">
+               <property name="text">
+                <string>Doziemny:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="le_kabel_doziemny">
+               <property name="text">
+                <string>Xmodel_doziemny</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="cb_kabel_abonencki_napowietrzny">
+               <property name="text">
+                <string>Abonencki napowietrzny:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="le_kabel_abonencki_napowietrzny">
+               <property name="text">
+                <string>FA-DOFC-2J-A2-V-FB</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="cb_kabel_abonencki_doziemny">
+               <property name="text">
+                <string>Abonencki doziemny:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="le_kabel_abonencki_doziemny">
+               <property name="text">
+                <string>DAC</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="cb_kabel_abonencki_planowany">
+               <property name="text">
+                <string>Abonencki planowany:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="le_kabel_abonencki_planowany">
+               <property name="text">
+                <string>None</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_pe_modele">
+            <property name="title">
+             <string>Punkty Elastyczności (PE)</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <layout class="QFormLayout" name="formLayout_pe">
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="cb_pe_mufa_dostepowa">
+               <property name="text">
+                <string>Mufa dostępowa:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="le_pe_mufa_dostepowa">
+               <property name="text">
+                <string>PMP-24C-96</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="cb_pe_mufa_liniowa">
+               <property name="text">
+                <string>Mufa liniowa:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="le_pe_mufa_liniowa">
+               <property name="text">
+                <string>PMP-24TL4</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="cb_pe_zapas">
+               <property name="text">
+                <string>Zapas:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="le_pe_zapas">
+               <property name="text">
+                <string>OFIBER ZAS-60L</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="cb_pe_mufy_istniejace">
+               <property name="text">
+                <string>Mufy istniejące:</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="le_pe_mufy_istniejace">
+               <property name="text">
+                <string>model-nieznany</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_strategia_modele">
+          <property name="title">
+           <string>Strategia aktualizacji</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_strategia_modele">
+           <item>
+            <widget class="QRadioButton" name="nadpisz_radio_modele">
+             <property name="text">
+              <string>Nadpisz istniejące wartości</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="pomijaj_radio_modele">
+             <property name="text">
+              <string>Pomijaj istniejące wartości</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_modele">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_id_obiektow">
+       <attribute name="title">
+        <string>ID obiektów</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_tab_id">
+        <item>
+         <widget class="QGroupBox" name="groupBox_warstwy_id">
+          <property name="title">
+           <string>Wybór warstw</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_warstwy_id">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_warstwy_radio_id">
+             <item>
+              <widget class="QRadioButton" name="wszystkie_warstwy_radio_id">
+               <property name="text">
+                <string>Dla wszystkich warstw</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="wybrane_warstwy_radio_id">
+               <property name="text">
+                <string>Dla wybranych warstw</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QScrollArea" name="layers_scroll_area_id">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents_id">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>100</width>
+                <height>100</height>
+               </rect>
+              </property>
+              <layout class="QGridLayout" name="layers_grid_layout_id"/>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_strategia_id">
+          <property name="title">
+           <string>Strategia aktualizacji</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_strategia_id">
+           <item>
+            <widget class="QRadioButton" name="radio_regenerate_all_ids">
+             <property name="text">
+              <string>Przepisz ID dla wszystkich obiektów w zaznaczonych warstwach</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radio_fill_missing_ids">
+             <property name="text">
+              <string>Uzupełnij tylko brakujące lub błędne ID</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_id">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="output_widget_placeholder" native="true"/>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

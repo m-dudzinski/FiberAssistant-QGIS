@@ -1,0 +1,22 @@
+# Pliki cache Pythona
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ustawienia edytora
+.vscode/
+.idea/
+
+# Pliki generowane przez Qt/QGIS
+# Jeśli kompilujesz zasoby (np. resources.qrc) do pliku .py
+# dodaj tutaj nazwę pliku wyjściowego, np.:
+resources.py
+resources_rc.py
+
+# Pliki tymczasowe
+*.bak
+*.tmp
+
+# Spakowane wtyczki
+*.zip

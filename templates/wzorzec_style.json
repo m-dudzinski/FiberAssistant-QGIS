@@ -1,0 +1,14 @@
+{
+	"styles": [
+		{ "layer_name": "kable_wybudowane", "qml_file": "kable_wybudowane.qml" },
+		{ "layer_name": "pe_wybudowane", "qml_file": "pe_wybudowane.qml" },
+		{ "layer_name": "trakt_wybudowane", "qml_file": "trakt_wybudowane.qml" },
+		{ "layer_name": "przyłącza_planowane", "qml_file": "przyłącza_planowane.qml" },
+		{ "layer_name": "kable_budowa", "qml_file": "kable_budowa.qml" },
+		{ "layer_name": "pe_budowa", "qml_file": "pe_budowa.qml" },
+		{ "layer_name": "zakres_niewybudowane", "qml_file": "zakres_niewybudowane.qml" },
+		{ "layer_name": "kable_niewybudowane", "qml_file": "kable_niewybudowane.qml" },
+		{ "layer_name": "pe_niewybudowane", "qml_file": "pe_niewybudowane.qml" },
+		{ "layer_name": "obiekty_punktowe_niewybudowane", "qml_file": "obiekty_punktowe_niewybudowane.qml" }
+	]
+}

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PrzeliczanieDlugosciWidget</class>
+ <widget class="QWidget" name="PrzeliczanieDlugosciWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Przeliczanie długości</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_zakres">
+     <item>
+      <widget class="QLabel" name="label_zakres">
+       <property name="text">
+        <string>Wybierz zakres:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="zakres_combo_box">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="refresh_button">
+       <property name="toolTip">
+        <string>Odśwież listę zakresów</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/options_icons/options_icon_refresh.png</normaloff>:/icons/options_icons/options_icon_refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_main">
+     <property name="title">
+      <string>Wybierz grupy i warstwy</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_main">
+      <item>
+       <widget class="QGroupBox" name="groupBox_kable">
+        <property name="title">
+         <string>Kable</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_kable">
+         <item>
+          <widget class="QCheckBox" name="kable_kable_checkbox">
+           <property name="text">
+            <string>kable</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kable_raport_checkbox">
+           <property name="text">
+            <string>kable_raport</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_trakty">
+        <property name="title">
+         <string>Trakty</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_trakty">
+         <item>
+          <widget class="QCheckBox" name="trakty_trakt_checkbox">
+           <property name="text">
+            <string>trakt</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="trakty_wybudowane_trakty_checkbox">
+           <property name="text">
+            <string>wybudowane_trakty</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_oslony">
+        <property name="title">
+         <string>Osłony</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_oslony">
+         <item>
+          <widget class="QCheckBox" name="oslony_obiekty_oslonowe_checkbox">
+           <property name="text">
+            <string>obiekty_osłonowe</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_dlugosci">
+     <property name="title">
+      <string>Wybierz długości do przeliczenia</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_dlugosci">
+      <item>
+       <widget class="QCheckBox" name="dl_tras_checkbox">
+        <property name="text">
+         <string>Długość trasowa (dl_tras)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="dl_inst_checkbox">
+        <property name="text">
+         <string>Długość instalacyjna (dl_inst)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="dl_opt_checkbox">
+        <property name="text">
+         <string>Długość optyczna (dl_opt)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_tryb">
+     <property name="title">
+      <string>Tryb obliczeń</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_tryb">
+      <item>
+       <widget class="QRadioButton" name="overwrite_radiobutton">
+        <property name="text">
+         <string>Nadpisz wartości</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="fill_missing_radiobutton">
+        <property name="text">
+         <string>Uzupełnij brakujące</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_zaawansowane">
+     <property name="title">
+      <string>Ustawienia zaawansowane</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_zaawansowane">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_jm">
+        <property name="text">
+         <string>Jednostka miary:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="jm_combobox"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_pr">
+        <property name="text">
+         <string>Precyzja(miejsca po przecinku):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="pr_combobox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_dlzap">
+        <property name="text">
+         <string>Standardowa długość zapasu:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="dlzap_lineedit"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_wspinst">
+        <property name="text">
+         <string>Współczynnik dł. instalacyjnej:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="wspinst_lineedit"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_wspopt">
+        <property name="text">
+         <string>Współczynnik dł. optycznej:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="wspopt_lineedit"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="output_widget_placeholder" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,16 @@
+{
+  "CABLE_LAYERS": [
+    "kable",
+    "kable_raport",
+    "wybudowane_kable",
+    "budowa_kable",
+    "kable_niewybudowane"
+  ],
+  "OSLONY_LAYERS": [
+    "obiekty_osłonowe"
+  ],
+  "TRAKT_LAYERS": [
+    "trakt",
+    "wybudowane_trakty"
+  ]
+}

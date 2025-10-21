@@ -1,0 +1,30 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>icons/FA_baner.png</file>
+    <file>icons/FA_icon.png</file>
+    <file>icons/functions_icons/function_icon_czyszczenie.png</file>
+    <file>icons/functions_icons/function_icon_dane_podstawowe_projektu.png</file>
+    <file>icons/functions_icons/function_icon_elementy_niewybudowane.png</file>
+    <file>icons/functions_icons/function_icon_funkcje_w_fazie_testow.png</file>
+    <file>icons/functions_icons/function_icon_funkcjonalnosci_dla_tok.png</file>
+    <file>icons/functions_icons/function_icon_karta_krosowan.png</file>
+    <file>icons/functions_icons/function_icon_przeliczanie_dlugosci.png</file>
+    <file>icons/functions_icons/function_icon_raport_miesieczny_qgis.png</file>
+    <file>icons/functions_icons/function_icon_raport_polroczny_qgis.png</file>
+    <file>icons/functions_icons/function_icon_statystyka.png</file>
+    <file>icons/functions_icons/function_icon_stycznosc_wierzcholkow.png</file>
+    <file>icons/functions_icons/function_icon_uzupelnianie_struktury_projektu.png</file>
+    <file>icons/functions_icons/function_icon_walidator.png</file>
+    <file>icons/functions_icons/function_icon_wykorzystanie_infrastruktury.png</file>
+    <file>icons/functions_icons/function_icon_wyszukiwarka.png</file>
+    <file>icons/functions_icons/function_icon_zarzadzanie_kablami.png</file>
+    <file>icons/functions_icons/function_icon_zarzadzanie_PA.png</file>
+    <file>icons/functions_icons/function_icon_zarzadzanie_PE.png</file>
+    <file>icons/options_icons/options_icon_clean.png</file>
+    <file>icons/options_icons/options_icon_copy.png</file>
+    <file>icons/options_icons/options_icon_export_txt.png</file>
+    <file>icons/options_icons/options_icon_help.png</file>
+    <file>icons/options_icons/options_icon_refresh.png</file>
+    <file>icons/options_icons/options_icon_settings.png</file>
+</qresource>
+</RCC>
