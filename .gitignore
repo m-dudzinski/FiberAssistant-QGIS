@@ -20,3 +20,9 @@ resources_rc.py
 
 # Spakowane wtyczki
 *.zip
+
+# Specyficzne pliki do wykluczenia
+docs/
+01_założenia_ogólne_FA.txt
+02_logika_FA.txt
+03_informacje_dodatkowe_FA.txt

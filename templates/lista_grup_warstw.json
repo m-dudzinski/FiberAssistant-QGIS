@@ -1,16 +1,7 @@
 {
-  "CABLE_LAYERS": [
-    "kable",
-    "kable_raport",
-    "wybudowane_kable",
-    "budowa_kable",
-    "kable_niewybudowane"
-  ],
-  "OSLONY_LAYERS": [
-    "obiekty_osłonowe"
-  ],
-  "TRAKT_LAYERS": [
-    "trakt",
-    "wybudowane_trakty"
-  ]
+	"CABLE_LAYERS": ["kable", "kable_raport", "wybudowane_kable", "budowa_kable", "kable_niewybudowane"],
+	"OSLONY_LAYERS": ["obiekty_osłonowe"],
+	"TRAKT_LAYERS": ["trakt", "wybudowane_trakty"],
+	"INFRASTRUCTURE_LAYERS": ["nN_nn", "slupy_opl", "studnie_opl", "obiekty_punktowe"],
+	"ADDRESS_LAYERS": ["lista_pa_brzeski_calosc"]
 }

@@ -2,8 +2,13 @@
 icon=icons/FA_icon.png
 name=Fiber Assistant
 qgisMinimumVersion=3.16
-description=Wtyczka wspomagająca projektowanie sieci światłowodowych. Projekt znajduje się obecnie w aktywnej fazie rozwoju i testów (wersja eksperymentalna). Z tego względu zawsze przed użyciem wtyczki należy wykonać kopię bezpieczeństwa danych, na wypadek ich uszkodzenia w trakcie użytkowania wtyczki.
+description=Wtyczka wspomagająca projektowanie sieci światłowodowych FTTH. 
+about=Projekt znajduje się obecnie w aktywnej fazie rozwoju i testów (wersja eksperymentalna). Z tego względu zawsze przed użyciem wtyczki należy wykonać kopię bezpieczeństwa danych, na wypadek ich uszkodzenia w trakcie użytkowania wtyczki.
 version=0.1
 author=Mateusz Dudziński
 email=mate.dudzinski@gmail.com
+homepage=https://github.com/m-dudzinski/FiberAssistant-QGIS
 repository=https://github.com/m-dudzinski/FiberAssistant-QGIS
+tracker=https://github.com/m-dudzinski/FiberAssistant-QGIS/issues
+experimental=true
+license=GPL-v2+

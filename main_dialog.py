@@ -31,6 +31,7 @@ from .functionalities.czyszczenie import CzyszczenieWidget
 from .functionalities.funkcje_w_fazie_testow import FunkcjeWFazieTestowWidget
 from .functionalities.logi import LogiWidget
 from .dialogs.settings_dialog import SettingsDialog
+from .core.functionalities_menu_list import ENABLED_FUNCTIONALITIES, RUN_BUTTON_WHITELIST
 
 class FiberAssistantDialog(QDialog, FORM_CLASS):
     def __init__(self, iface, parent=None):
@@ -60,7 +61,6 @@ class FiberAssistantDialog(QDialog, FORM_CLASS):
         self.log_widget.export_requested.connect(self._export_logs_to_file)
 
         # --- Dynamic Functionality Loading ---
-        from .core.functionalities_menu_list import ENABLED_FUNCTIONALITIES
 
         # A map containing all possible functionalities and their metadata.
         # The key corresponds to the identifier in `functionalities_menu_list.py`.
@@ -74,7 +74,7 @@ class FiberAssistantDialog(QDialog, FORM_CLASS):
             "zarzadzanie_PA": {"class": ZarzadzaniePAWidget, "name": "Zarządzanie PA", "icon": ":/icons/functions_icons/function_icon_zarzadzanie_PA.png", "description": "Masowe ustawianie atrybutów PA.", "init": lambda: ZarzadzaniePAWidget(self)},
             "zarzadzanie_PE": {"class": ZarzadzaniePEWidget, "name": "Zarządzanie PE", "icon": ":/icons/functions_icons/function_icon_zarzadzanie_PE.png", "description": "Masowe ustawianie atrybutów dla PE.", "init": lambda: ZarzadzaniePEWidget(self)},
             "karta_krosowan": {"class": KartaKrosowanWidget, "name": "Karta krosowań", "icon": ":/icons/functions_icons/function_icon_karta_krosowan.png", "description": "Przypisywanie adresom portów zasilających.", "init": lambda: KartaKrosowanWidget(self)},
-            "stycznosc_wierzcholkow": {"class": StycznoscWierzcholkowWidget, "name": "Styczność wierzchołków", "icon": ":/icons/functions_icons/function_icon_stycznosc_wierzcholkow.png", "description": "Weryfikacja prawidłowego dociągnięcia obiektów.", "init": lambda: StycznoscWierzcholkowWidget(self)},
+            "stycznosc_wierzcholkow": {"class": StycznoscWierzcholkowWidget, "name": "Styczność wierzchołków", "icon": ":/icons/functions_icons/function_icon_stycznosc_wierzcholkow.png", "description": "Weryfikacja prawidłowego dociągnięcia obiektów.", "init": lambda: StycznoscWierzcholkowWidget(self.iface, self)},
             "wykorzystanie_infrastruktury": {"class": WykorzystanieInfrastrukturyWidget, "name": "Wykorzystanie infrastruktury", "icon": ":/icons/functions_icons/function_icon_wykorzystanie_infrastruktury.png", "description": "Masowe ustawienie atrybutu o wykorzystaniu obiektów.", "init": lambda: WykorzystanieInfrastrukturyWidget(self)},
             "elementy_niewybudowane": {"class": ElementyNiewybudowaneWidget, "name": "Elementy niewybudowane", "icon": ":/icons/functions_icons/function_icon_elementy_niewybudowane.png", "description": "Przenoszenie obiektów na warstwy robocze.", "init": lambda: ElementyNiewybudowaneWidget(self)},
             "raport_miesieczny_qgis": {"class": RaportMiesiecznyQgisWidget, "name": "Raport miesięczny QGIS", "icon": ":/icons/functions_icons/function_icon_raport_miesieczny_qgis.png", "description": "Masowe przenoszenie obiektów do warstw raportowych.", "init": lambda: RaportMiesiecznyQgisWidget(self)},
@@ -200,10 +200,6 @@ class FiberAssistantDialog(QDialog, FORM_CLASS):
 
     def _update_run_button_visibility(self, index):
         """Shows the main run button only for functionalities that require it."""
-        RUN_BUTTON_WHITELIST = [
-            "Dane podstawowe projektu",
-            "Przeliczanie długości"
-        ]
 
         if index < len(self.functionalities):
             selected_function_name = self.functionalities[index]["name"]

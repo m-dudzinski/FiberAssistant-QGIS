@@ -2,17 +2,430 @@
 <ui version="4.0">
  <class>StycznoscWierzcholkowWidget</class>
  <widget class="QWidget" name="StycznoscWierzcholkowWidget">
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_main">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Funkcjonalność w trakcie budowy..</string>
+    <layout class="QHBoxLayout" name="horizontalLayout_zakres">
+     <item>
+      <widget class="QLabel" name="label_zakres">
+       <property name="text">
+        <string>Wybierz zakres:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="zakres_combo_box">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="refresh_button">
+       <property name="toolTip">
+        <string>Odśwież listę zakresów</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/options_icons/options_icon_refresh.png</normaloff>:/icons/options_icons/options_icon_refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_kable">
+       <attribute name="title">
+        <string>Styczność kabli</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_kable">
+        <item>
+         <widget class="QGroupBox" name="groupBox_wybierz_grupy_warstwy_kable">
+          <property name="title">
+           <string>Wybierz grupy i warstwy</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_wybierz_grupy_warstwy_kable">
+           <item>
+            <widget class="QGroupBox" name="groupBox_infra_kable">
+             <property name="title">
+              <string>Warstwy infrastruktury</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_infra_kable"/>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_rozdzielcza">
+             <property name="title">
+              <string>Grupa rozdzielcza</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_rozdzielcza">
+              <item>
+               <widget class="QCheckBox" name="checkBox_roz_napowietrzny">
+                <property name="text">
+                 <string>napowietrzny</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_roz_kanalowy">
+                <property name="text">
+                 <string>kanałowy</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_roz_doziemny">
+                <property name="text">
+                 <string>doziemny</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_abonencka">
+             <property name="title">
+              <string>Grupa abonencka</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_abonencka">
+              <item>
+               <widget class="QCheckBox" name="checkBox_ab_napowietrzny">
+                <property name="text">
+                 <string>abonencki napowietrzny</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_ab_doziemny">
+                <property name="text">
+                 <string>abonencki doziemny</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_ab_planowany">
+                <property name="text">
+                 <string>abonencki planowany</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_tryb_dzialania_kable">
+          <property name="title">
+           <string>Tryb działania</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_tryb_dzialania_kable">
+           <item>
+            <widget class="QCheckBox" name="checkBox_auto_fix_kable">
+             <property name="text">
+              <string>Automatycznie popraw geometrię</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_experimental_kable">
+             <property name="title">
+              <string>Ustawienia eksperymentalne</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_experimental_kable">
+              <item>
+               <widget class="QLabel" name="label_max_dist_kable">
+                <property name="text">
+                 <string>Maksymalna odległość szukania [m]:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_max_dist_kable">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_kable">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_trakty">
+       <attribute name="title">
+        <string>Styczność traktów</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_trakty">
+        <item>
+         <widget class="QGroupBox" name="groupBox_wybierz_grupy_warstwy_trakty">
+          <property name="title">
+           <string>Wybierz grupy i warstwy</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_wybierz_grupy_warstwy_trakty">
+           <item>
+            <widget class="QGroupBox" name="groupBox_infra_trakty">
+             <property name="title">
+              <string>Warstwy infrastruktury</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_infra_trakty"/>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_groups_trakty">
+             <property name="title">
+              <string>Grupy traktów</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_groups_trakty"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_tryb_dzialania_trakty">
+          <property name="title">
+           <string>Tryb działania</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_tryb_dzialania_trakty">
+           <item>
+            <widget class="QCheckBox" name="checkBox_auto_fix_trakty">
+             <property name="text">
+              <string>Automatycznie popraw geometrię</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_experimental_trakty">
+             <property name="title">
+              <string>Ustawienia eksperymentalne</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_experimental_trakty">
+              <item>
+               <widget class="QLabel" name="label_max_dist_trakty">
+                <property name="text">
+                 <string>Maksymalna odległość szukania [m]:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_max_dist_trakty">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_trakty">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_pe">
+       <attribute name="title">
+        <string>Styczność PE</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_pe">
+        <item>
+         <widget class="QGroupBox" name="groupBox_wybierz_grupy_warstwy_pe">
+          <property name="title">
+           <string>Wybierz grupy i warstwy</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_wybierz_grupy_warstwy_pe">
+           <item>
+            <widget class="QGroupBox" name="groupBox_infra_pe">
+             <property name="title">
+              <string>Warstwy infrastruktury</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_infra_pe"/>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_groups_pe">
+             <property name="title">
+              <string>Grupy PE</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_groups_pe"/>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_note_pe">
+          <property name="text">
+           <string>&lt;b&gt;Uwaga:&lt;/b&gt; Po wykonaniu automatycznej poprawy, zweryfikuj ręcznie PE, które powinny być styczne do PA (w budynkach).</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_tryb_dzialania_pe">
+          <property name="title">
+           <string>Tryb działania</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_tryb_dzialania_pe">
+           <item>
+            <widget class="QCheckBox" name="checkBox_auto_fix_pe">
+             <property name="text">
+              <string>Automatycznie popraw geometrię</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_experimental_pe">
+             <property name="title">
+              <string>Ustawienia eksperymentalne</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_experimental_pe">
+              <item>
+               <widget class="QLabel" name="label_max_dist_pe">
+                <property name="text">
+                 <string>Maksymalna odległość szukania [m]:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_max_dist_pe">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_pe">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="output_widget_placeholder" native="true"/>
     </widget>
    </item>
   </layout>
  </widget>
+ <resources/>
+ <connections/>
 </ui>
