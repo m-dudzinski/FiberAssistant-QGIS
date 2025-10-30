@@ -8,11 +8,13 @@ from qgis.PyQt.QtWidgets import QWidget, QCheckBox, QVBoxLayout
 from qgis.core import (
     QgsProject,
     QgsFeature,
+    QgsFeatureRequest,
     QgsGeometry,
     QgsPointXY,
     QgsWkbTypes,
     QgsSpatialIndex,
-    QgsVectorLayer
+    QgsVectorLayer,
+    QgsCoordinateTransform
 )
 
 from .base_widget import FormattedOutputWidget
@@ -30,6 +32,13 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         self.project = QgsProject.instance()
         self.logger = logger
         self.setupUi(self)
+
+        self.groupBox_experimental_kable.setTitle("Wyłącz zasięg przeszukiwania")
+        self.spinBox_max_dist_kable.setValue(1)
+        self.groupBox_experimental_trakty.setTitle("Wyłącz zasięg przeszukiwania")
+        self.spinBox_max_dist_trakty.setValue(1)
+        self.groupBox_experimental_pe.setTitle("Wyłącz zasięg przeszukiwania")
+        self.spinBox_max_dist_pe.setValue(1)
 
         self.infra_checkboxes_kable = []
         self.infra_checkboxes_trakty = []
@@ -110,14 +119,43 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
 
     def _connect_signals(self):
         self.refresh_button.clicked.connect(self._populate_zakres_combobox)
-        self.groupBox_experimental_kable.toggled.connect(self.spinBox_max_dist_kable.setEnabled)
-        self.groupBox_experimental_trakty.toggled.connect(self.spinBox_max_dist_trakty.setEnabled)
-        self.groupBox_experimental_pe.toggled.connect(self.spinBox_max_dist_pe.setEnabled)
+        
+        # Kable tab
+        self.checkBox_auto_fix_kable.toggled.connect(self.groupBox_experimental_kable.setEnabled)
+        self.checkBox_auto_fix_kable.toggled.connect(self.spinBox_max_dist_kable.setEnabled)
+        self.groupBox_experimental_kable.toggled.connect(self._handle_disable_range_kable)
+        
+        # Trakty tab
+        self.checkBox_auto_fix_trakty.toggled.connect(self.groupBox_experimental_trakty.setEnabled)
+        self.checkBox_auto_fix_trakty.toggled.connect(self.spinBox_max_dist_trakty.setEnabled)
+        self.groupBox_experimental_trakty.toggled.connect(self._handle_disable_range_trakty)
+        
+        # PE tab
+        self.checkBox_auto_fix_pe.toggled.connect(self.groupBox_experimental_pe.setEnabled)
+        self.checkBox_auto_fix_pe.toggled.connect(self.spinBox_max_dist_pe.setEnabled)
+        self.groupBox_experimental_pe.toggled.connect(self._handle_disable_range_pe)
 
     def _setup_initial_state(self):
+        self.groupBox_experimental_kable.setEnabled(False)
+        self.groupBox_experimental_kable.setChecked(False)
         self.spinBox_max_dist_kable.setEnabled(False)
+        
+        self.groupBox_experimental_trakty.setEnabled(False)
+        self.groupBox_experimental_trakty.setChecked(False)
         self.spinBox_max_dist_trakty.setEnabled(False)
+        
+        self.groupBox_experimental_pe.setEnabled(False)
+        self.groupBox_experimental_pe.setChecked(False)
         self.spinBox_max_dist_pe.setEnabled(False)
+
+    def _handle_disable_range_kable(self, checked):
+        self.spinBox_max_dist_kable.setEnabled(not checked)
+
+    def _handle_disable_range_trakty(self, checked):
+        self.spinBox_max_dist_trakty.setEnabled(not checked)
+
+    def _handle_disable_range_pe(self, checked):
+        self.spinBox_max_dist_pe.setEnabled(not checked)
 
     def run_main_action(self):
         self.output_widget.clear_log()
@@ -149,10 +187,10 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         if layer.isEditable(): return self.output_widget.log_error(f"Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
 
         auto_fix = self.checkBox_auto_fix_kable.isChecked()
-        experimental_enabled = self.groupBox_experimental_kable.isChecked()
+        limit_distance = not self.groupBox_experimental_kable.isChecked()
         max_distance = self.spinBox_max_dist_kable.value()
         
-        self._run_check_logic(layer, scope_geom, auto_fix, experimental_enabled, max_distance, 'kable')
+        self._run_check_logic(layer, scope_geom, auto_fix, limit_distance, max_distance, 'kable')
 
     def run_trakty_check(self):
         self.output_widget.log_info("Rozpoczynam sprawdzanie styczności dla: Trakty...")
@@ -167,10 +205,10 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         if layer.isEditable(): return self.output_widget.log_error(f"Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
             
         auto_fix = self.checkBox_auto_fix_trakty.isChecked()
-        experimental_enabled = self.groupBox_experimental_trakty.isChecked()
+        limit_distance = not self.groupBox_experimental_trakty.isChecked()
         max_distance = self.spinBox_max_dist_trakty.value()
 
-        self._run_check_logic(layer, scope_geom, auto_fix, experimental_enabled, max_distance, 'trakty')
+        self._run_check_logic(layer, scope_geom, auto_fix, limit_distance, max_distance, 'trakty')
 
     def run_pe_check(self):
         self.output_widget.log_info("Rozpoczynam sprawdzanie styczności dla: PE...")
@@ -185,42 +223,110 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         if layer.isEditable(): return self.output_widget.log_error(f"Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
 
         auto_fix = self.checkBox_auto_fix_pe.isChecked()
-        experimental_enabled = self.groupBox_experimental_pe.isChecked()
+        limit_distance = not self.groupBox_experimental_pe.isChecked()
         max_distance = self.spinBox_max_dist_pe.value()
 
-        self._run_check_logic(layer, scope_geom, auto_fix, experimental_enabled, max_distance, 'pe')
+        self._run_check_logic(layer, scope_geom, auto_fix, limit_distance, max_distance, 'pe')
 
-    def _run_check_logic(self, layer, scope_geom, auto_fix, experimental_enabled, max_distance, check_type):
+    def _run_check_logic(self, layer, scope_geom, auto_fix, limit_distance, max_distance, check_type):
+        # --- CRS Handling Setup ---
+        source_crs = layer.crs()
+        target_crs = self.project.crs()
+        transform_needed = source_crs != target_crs
+        forward_transformer = None
+        
+        if transform_needed:
+            self.output_widget.log_info(f"Wykryto różnicę w układach współrzędnych.")
+            self.output_widget.log_info(f"Warstwa '{layer.name()}' używa: {source_crs.authid()} ({source_crs.description()}).")
+            self.output_widget.log_info(f"Projekt używa: {target_crs.authid()} ({target_crs.description()}).")
+            self.output_widget.log_info("Geometrie będą dynamicznie transformowane do układu projektu w celu zapewnienia poprawności obliczeń metrycznych.")
+            forward_transformer = QgsCoordinateTransform(source_crs, target_crs, self.project)
+
+        # Etap 1: Transformacja geometrii zakresu do układu metrycznego projektu
+        zakres_layer_list = self.project.mapLayersByName("zakres_zadania")
+        if not zakres_layer_list:
+            self.output_widget.log_error("Nie można odnaleźć warstwy 'zakres_zadania' w celu weryfikacji układu współrzędnych.")
+            return
+        
+        scope_crs = zakres_layer_list[0].crs()
+        scope_geom_metric = QgsGeometry(scope_geom)
+        if scope_crs != target_crs:
+            scope_transformer = QgsCoordinateTransform(scope_crs, target_crs, self.project)
+            scope_geom_metric.transform(scope_transformer)
+
+        # Etap 2: Skanowanie w celu identyfikacji obiektów do przetworzenia
+        features_to_process = []
+        metric_geometries_to_combine = [scope_geom_metric]
+        
+        # Przygotowanie transformacji dla geometrii z warstwy, jeśli jest potrzebna
+        feature_transformer = None
+        if source_crs != target_crs:
+            feature_transformer = QgsCoordinateTransform(source_crs, target_crs, self.project)
+
+        for feature in layer.getFeatures():
+            feature_geom = QgsGeometry(feature.geometry())
+            
+            # Transformacja geometrii obiektu do układu metrycznego
+            if feature_transformer:
+                feature_geom.transform(feature_transformer)
+
+            if self._is_in_scope(feature_geom, scope_geom_metric):
+                features_to_process.append(feature)
+                metric_geometries_to_combine.append(feature_geom)
+
+        # Etap 3: Budowa kontekstu - tworzenie rozszerzonego obszaru poszukiwań
+        self.output_widget.log_info(f"Znaleziono {len(features_to_process)} obiektów do analizy. Budowanie kontekstu...")
+
+        # Combine geometries using a more robust method
+        valid_geometries = []
+        for g in metric_geometries_to_combine:
+            if g and not g.isEmpty():
+                if not g.isGeosValid():
+                    g = g.makeValid()
+                valid_geometries.append(g)
+
+        if not valid_geometries:
+            combined_geom = QgsGeometry()
+        else:
+            combined_geom = QgsGeometry.collectGeometry(valid_geometries)
+
+        query_geom = combined_geom.buffer(5.0, 5)
+
+        # Etap 3: Pobieranie punktów z rozszerzonego obszaru
         infra_checkboxes = getattr(self, f"infra_checkboxes_{check_type}")
         infra_layers = [self.project.mapLayersByName(cb.text())[0] for cb in infra_checkboxes if cb.isChecked() and self.project.mapLayersByName(cb.text())]
-        infra_points = self._get_points_from_layers(infra_layers, scope_geom)
+        infra_points = self._get_points_from_layers(infra_layers, query_geom, target_crs)
 
         pa_points, pe_points = set(), set()
         if check_type in ['kable', 'pe']:
             pa_layer = self.project.mapLayersByName("lista_pa")
             if pa_layer:
-                pa_points = self._get_points_from_layers([pa_layer[0]], scope_geom)
+                pa_points = self._get_points_from_layers([pa_layer[0]], query_geom, target_crs)
         if check_type == 'kable':
             pe_layer = self.project.mapLayersByName("punkty_elastycznosci")
             if pe_layer:
-                pe_points = self._get_points_from_layers([pe_layer[0]], scope_geom)
+                pe_points = self._get_points_from_layers([pe_layer[0]], query_geom, target_crs)
+        
+        self.output_widget.log_info(f"Znaleziono {len(infra_points)} punktów infrastruktury, {len(pa_points)} punktów PA, {len(pe_points)} punktów PE w rozszerzonym zakresie.")
 
+        # Etap 4: Analiza
         stats = self._init_stats()
         layer.startEditing()
         try:
-            for feature in layer.getFeatures():
-                if not self._is_in_scope(feature.geometry(), scope_geom):
-                    stats['skipped_out_of_scope'] += 1
-                    continue
-                
-                new_geom, stats_update = self._process_feature(feature, infra_points, pa_points, pe_points, auto_fix, experimental_enabled, max_distance, check_type)
+            for feature in features_to_process:
+                new_geom, stats_update = self._process_feature(feature, layer, infra_points, pa_points, pe_points, auto_fix, limit_distance, max_distance, check_type)
                 
                 if stats_update:
                     self._update_stats(stats, stats_update)
-                    if stats_update['fixed'] > 0:
+                    if stats_update.get('fixed', 0) > 0:
+                        # Transform geometry back to original CRS before saving
+                        if transform_needed:
+                            reverse_transformer = QgsCoordinateTransform(target_crs, source_crs, self.project)
+                            new_geom.transform(reverse_transformer)
                         layer.changeGeometry(feature.id(), new_geom)
                         self._log_fixed_feature(feature, stats_update['fixed'], check_type)
-                    if stats_update['non_coincident'] > 0:
+                    
+                    if stats_update.get('non_coincident', 0) > 0:
                         self._log_non_coincident_feature(feature, stats_update['non_coincident'], check_type, stats_update.get('missing_endpoints'), stats_update.get('non_coincident_indices'))
         finally:
             layer.commitChanges()
@@ -228,8 +334,17 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         self.output_widget.log_info("Zakończono sprawdzanie.")
         self._log_stats(stats, check_type)
 
-    def _process_feature(self, feature, infra_points, pa_points, pe_points, auto_fix, experimental_enabled, max_distance, check_type):
-        geom = feature.geometry()
+    def _process_feature(self, feature, layer, infra_points, pa_points, pe_points, auto_fix, limit_distance, max_distance, check_type):
+        source_crs = layer.crs()
+        target_crs = self.project.crs()
+
+        if source_crs != target_crs:
+            transformer = QgsCoordinateTransform(source_crs, target_crs, self.project)
+            geom = QgsGeometry(feature.geometry())
+            geom.transform(transformer)
+        else:
+            geom = feature.geometry()
+
         stats_update = defaultdict(int)
 
         group_name = "BRAK"
@@ -294,7 +409,7 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
                     if i == len(new_geom_points) - 1: stats_update.setdefault('missing_endpoints', []).append("PA")
                 
                 if auto_fix:
-                    nearest_point = self._find_nearest_point(point, target_points, experimental_enabled, max_distance)
+                    nearest_point = self._find_nearest_point(point, target_points, limit_distance, max_distance)
                     if nearest_point:
                         new_geom_points[i] = nearest_point
                         stats_update['fixed'] += 1
@@ -310,24 +425,55 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         final_geom = QgsGeometry.fromPointXY(points_xy[0]) if geom.type() == QgsWkbTypes.PointGeometry else QgsGeometry.fromPolylineXY(points_xy)
         return final_geom, stats_update
 
-    def _get_points_from_layers(self, layers, scope_geom, precision=8):
+    def _get_points_from_layers(self, layers, scope_geom, scope_crs, precision=3):
         points = set()
-        if not layers:
+        if not layers or scope_geom.isEmpty():
             return points
+
+        target_crs = scope_crs
+
         for layer in layers:
             if not isinstance(layer, QgsVectorLayer):
                 continue
-            try:
-                index = QgsSpatialIndex(layer.getFeatures())
-                for feature in layer.getFeatures(index.intersects(scope_geom.boundingBox())):
-                    if scope_geom.intersects(feature.geometry()):
-                        for vertex in feature.geometry().vertices():
-                            points.add((round(vertex.x(), precision), round(vertex.y(), precision)))
-            except Exception as e:
-                self.output_widget.log_error(f"Błąd podczas przetwarzania warstwy '{layer.name()}': {e}")
+
+            source_crs = layer.crs()
+            self.output_widget.log_info(f"Sprawdzanie warstwy infrastruktury: '{layer.name()}' [Układ: {source_crs.authid()}]")
+            transform_to_target = None
+            transform_to_source = None
+
+            if source_crs != target_crs:
+                transform_to_target = QgsCoordinateTransform(source_crs, target_crs, self.project)
+                transform_to_source = QgsCoordinateTransform(target_crs, source_crs, self.project)
+
+            # Build spatial index
+            index = QgsSpatialIndex(layer.getFeatures())
+            
+            # Transform scope to layer's CRS for querying the index
+            query_bbox_geom = QgsGeometry(scope_geom)
+            if transform_to_source:
+                query_bbox_geom.transform(transform_to_source)
+            
+            query_bbox = query_bbox_geom.boundingBox()
+            candidate_ids = index.intersects(query_bbox)
+
+            if not candidate_ids:
+                continue
+
+            # Process only candidate features
+            request = QgsFeatureRequest().setFilterFids(candidate_ids)
+            for feature in layer.getFeatures(request):
+                feature_geom = QgsGeometry(feature.geometry())
+                
+                if transform_to_target:
+                    feature_geom.transform(transform_to_target)
+
+                if scope_geom.intersects(feature_geom):
+                    for vertex in feature_geom.vertices():
+                        points.add((round(vertex.x(), precision), round(vertex.y(), precision)))
+        
         return points
 
-    def _find_nearest_point(self, point, point_set, experimental_enabled, max_distance):
+    def _find_nearest_point(self, point, point_set, limit_distance, max_distance):
         min_dist_sq, nearest_point_tuple = float('inf'), None
         if not point_set:
             return None
@@ -340,14 +486,14 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
             if dist_sq < min_dist_sq:
                 min_dist_sq, nearest_point_tuple = dist_sq, p_tuple
         
-        if experimental_enabled and math.sqrt(min_dist_sq) > max_distance:
+        if limit_distance and math.sqrt(min_dist_sq) > max_distance:
             return None
         
         if nearest_point_tuple:
             return QgsPointXY(nearest_point_tuple[0], nearest_point_tuple[1])
         return None
 
-    def _check_coincidence_point(self, point, point_set, precision=8):
+    def _check_coincidence_point(self, point, point_set, precision=3):
         return (round(point.x(), precision), round(point.y(), precision)) in point_set
 
     def _is_in_scope(self, geom, scope_geom):
@@ -378,7 +524,7 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
                 'missing_endpoints': [],
                 'non_coincident_indices': []
             }),
-            'skipped_out_of_scope': 0, 'skipped_other': 0, 'skipped_fix': 0
+            'skipped_other': 0, 'skipped_fix': 0
         }
 
     def _update_stats(self, stats, update):
@@ -427,7 +573,6 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
                 if data['fixed_pa'] > 0: self.output_widget.log_success(f"    - w tym naprawione do PA: {data['fixed_pa']}")
                 if data['fixed_infra'] > 0: self.output_widget.log_success(f"    - w tym naprawione do infrastruktury: {data['fixed_infra']}")
 
-        if stats['skipped_out_of_scope'] > 0: self.output_widget.log_info(f"Pominięte (poza zakresem): {stats['skipped_out_of_scope']}")
         if stats['skipped_other'] > 0: self.output_widget.log_warning(f"Pominięte (błędna geometria): {stats['skipped_other']}")
         if stats['skipped_fix'] > 0: self.output_widget.log_warning(f"Pominięte (nie znaleziono obiektu do dociągnięcia w pobliżu): {stats['skipped_fix']}")
 
