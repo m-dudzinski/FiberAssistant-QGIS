@@ -178,33 +178,38 @@
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_experimental_kable">
-             <property name="title">
-              <string>Ustawienia eksperymentalne</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_experimental_kable">
-              <item>
-               <widget class="QLabel" name="label_max_dist_kable">
-                <property name="text">
-                 <string>Maksymalna odległość szukania [m]:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="spinBox_max_dist_kable">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_max_dist_kable">
+             <item>
+              <widget class="QLabel" name="label_max_dist_kable">
+               <property name="text">
+                <string>Maksymalna odległość szukania [m]:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBox_max_dist_kable"/>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox_disable_range_kable">
+               <property name="text">
+                <string>Wyłącz zasięg przeszukiwania</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_kable">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -271,33 +276,38 @@
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_experimental_trakty">
-             <property name="title">
-              <string>Ustawienia eksperymentalne</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_experimental_trakty">
-              <item>
-               <widget class="QLabel" name="label_max_dist_trakty">
-                <property name="text">
-                 <string>Maksymalna odległość szukania [m]:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="spinBox_max_dist_trakty">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_max_dist_trakty">
+             <item>
+              <widget class="QLabel" name="label_max_dist_trakty">
+               <property name="text">
+                <string>Maksymalna odległość szukania [m]:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBox_max_dist_trakty"/>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox_disable_range_trakty">
+               <property name="text">
+                <string>Wyłącz zasięg przeszukiwania</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_trakty">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -351,16 +361,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_note_pe">
-          <property name="text">
-           <string>&lt;b&gt;Uwaga:&lt;/b&gt; Po wykonaniu automatycznej poprawy, zweryfikuj ręcznie PE, które powinny być styczne do PA (w budynkach).</string>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QGroupBox" name="groupBox_tryb_dzialania_pe">
           <property name="title">
            <string>Tryb działania</string>
@@ -374,35 +374,50 @@
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox_experimental_pe">
-             <property name="title">
-              <string>Ustawienia eksperymentalne</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_experimental_pe">
-              <item>
-               <widget class="QLabel" name="label_max_dist_pe">
-                <property name="text">
-                 <string>Maksymalna odległość szukania [m]:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="spinBox_max_dist_pe">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_max_dist_pe">
+             <item>
+              <widget class="QLabel" name="label_max_dist_pe">
+               <property name="text">
+                <string>Maksymalna odległość szukania [m]:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBox_max_dist_pe"/>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox_disable_range_pe">
+               <property name="text">
+                <string>Wyłącz zasięg przeszukiwania</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_pe">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_note_pe">
+          <property name="text">
+           <string>&lt;b&gt;Uwaga:&lt;/b&gt; Po wykonaniu automatycznej poprawy, zweryfikuj ręcznie PE, które powinny być styczne do PA (w budynkach).</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item>

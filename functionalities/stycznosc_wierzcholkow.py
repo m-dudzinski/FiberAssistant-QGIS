@@ -33,11 +33,8 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         self.logger = logger
         self.setupUi(self)
 
-        self.groupBox_experimental_kable.setTitle("Wyłącz zasięg przeszukiwania")
         self.spinBox_max_dist_kable.setValue(1)
-        self.groupBox_experimental_trakty.setTitle("Wyłącz zasięg przeszukiwania")
         self.spinBox_max_dist_trakty.setValue(1)
-        self.groupBox_experimental_pe.setTitle("Wyłącz zasięg przeszukiwania")
         self.spinBox_max_dist_pe.setValue(1)
 
         self.infra_checkboxes_kable = []
@@ -67,13 +64,21 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
             return
 
         zakres_layer = zakres_layer_list[0]
+
+        if "nazwa" not in zakres_layer.fields().names():
+            self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
+            return
+
+        features_to_add = []
         for feature in zakres_layer.getFeatures():
-            try:
-                self.zakres_combo_box.addItem(feature["nazwa"], feature.geometry())
-            except KeyError:
-                self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
-                self.zakres_combo_box.clear()
-                break
+            if feature.attribute("nazwa"):
+                features_to_add.append((feature["nazwa"], feature.geometry()))
+
+        features_to_add.sort(key=lambda f: f[0])
+
+        for nazwa, geom in features_to_add:
+            self.zakres_combo_box.addItem(nazwa, geom)
+
         self.output_widget.log_info(f"Znaleziono {self.zakres_combo_box.count()} zakresów.")
 
     def _populate_layer_lists(self):
@@ -119,34 +124,58 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
 
     def _connect_signals(self):
         self.refresh_button.clicked.connect(self._populate_zakres_combobox)
-        
+
         # Kable tab
-        self.checkBox_auto_fix_kable.toggled.connect(self.groupBox_experimental_kable.setEnabled)
-        self.checkBox_auto_fix_kable.toggled.connect(self.spinBox_max_dist_kable.setEnabled)
-        self.groupBox_experimental_kable.toggled.connect(self._handle_disable_range_kable)
-        
+        self.checkBox_auto_fix_kable.toggled.connect(self._handle_auto_fix_kable_toggled)
+        self.checkBox_disable_range_kable.toggled.connect(self._handle_disable_range_kable)
+
         # Trakty tab
-        self.checkBox_auto_fix_trakty.toggled.connect(self.groupBox_experimental_trakty.setEnabled)
-        self.checkBox_auto_fix_trakty.toggled.connect(self.spinBox_max_dist_trakty.setEnabled)
-        self.groupBox_experimental_trakty.toggled.connect(self._handle_disable_range_trakty)
-        
+        self.checkBox_auto_fix_trakty.toggled.connect(self._handle_auto_fix_trakty_toggled)
+        self.checkBox_disable_range_trakty.toggled.connect(self._handle_disable_range_trakty)
+
         # PE tab
-        self.checkBox_auto_fix_pe.toggled.connect(self.groupBox_experimental_pe.setEnabled)
-        self.checkBox_auto_fix_pe.toggled.connect(self.spinBox_max_dist_pe.setEnabled)
-        self.groupBox_experimental_pe.toggled.connect(self._handle_disable_range_pe)
+        self.checkBox_auto_fix_pe.toggled.connect(self._handle_auto_fix_pe_toggled)
+        self.checkBox_disable_range_pe.toggled.connect(self._handle_disable_range_pe)
 
     def _setup_initial_state(self):
-        self.groupBox_experimental_kable.setEnabled(False)
-        self.groupBox_experimental_kable.setChecked(False)
+        # Kable tab
+        self.label_max_dist_kable.setEnabled(False)
         self.spinBox_max_dist_kable.setEnabled(False)
+        self.checkBox_disable_range_kable.setEnabled(False)
+        self.checkBox_disable_range_kable.setChecked(False)
         
-        self.groupBox_experimental_trakty.setEnabled(False)
-        self.groupBox_experimental_trakty.setChecked(False)
+        # Trakty tab
+        self.label_max_dist_trakty.setEnabled(False)
         self.spinBox_max_dist_trakty.setEnabled(False)
-        
-        self.groupBox_experimental_pe.setEnabled(False)
-        self.groupBox_experimental_pe.setChecked(False)
+        self.checkBox_disable_range_trakty.setEnabled(False)
+        self.checkBox_disable_range_trakty.setChecked(False)
+
+        # PE tab
+        self.label_max_dist_pe.setEnabled(False)
         self.spinBox_max_dist_pe.setEnabled(False)
+        self.checkBox_disable_range_pe.setEnabled(False)
+        self.checkBox_disable_range_pe.setChecked(False)
+
+    def _handle_auto_fix_kable_toggled(self, checked):
+        self.label_max_dist_kable.setEnabled(checked)
+        self.spinBox_max_dist_kable.setEnabled(checked)
+        self.checkBox_disable_range_kable.setEnabled(checked)
+        if checked:
+            self.spinBox_max_dist_kable.setEnabled(not self.checkBox_disable_range_kable.isChecked())
+        
+    def _handle_auto_fix_trakty_toggled(self, checked):
+        self.label_max_dist_trakty.setEnabled(checked)
+        self.spinBox_max_dist_trakty.setEnabled(checked)
+        self.checkBox_disable_range_trakty.setEnabled(checked)
+        if checked:
+            self.spinBox_max_dist_trakty.setEnabled(not self.checkBox_disable_range_trakty.isChecked())
+
+    def _handle_auto_fix_pe_toggled(self, checked):
+        self.label_max_dist_pe.setEnabled(checked)
+        self.spinBox_max_dist_pe.setEnabled(checked)
+        self.checkBox_disable_range_pe.setEnabled(checked)
+        if checked:
+            self.spinBox_max_dist_pe.setEnabled(not self.checkBox_disable_range_pe.isChecked())
 
     def _handle_disable_range_kable(self, checked):
         self.spinBox_max_dist_kable.setEnabled(not checked)
@@ -187,7 +216,7 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         if layer.isEditable(): return self.output_widget.log_error(f"Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
 
         auto_fix = self.checkBox_auto_fix_kable.isChecked()
-        limit_distance = not self.groupBox_experimental_kable.isChecked()
+        limit_distance = not self.checkBox_disable_range_kable.isChecked()
         max_distance = self.spinBox_max_dist_kable.value()
         
         self._run_check_logic(layer, scope_geom, auto_fix, limit_distance, max_distance, 'kable')
@@ -205,7 +234,7 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         if layer.isEditable(): return self.output_widget.log_error(f"Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
             
         auto_fix = self.checkBox_auto_fix_trakty.isChecked()
-        limit_distance = not self.groupBox_experimental_trakty.isChecked()
+        limit_distance = not self.checkBox_disable_range_trakty.isChecked()
         max_distance = self.spinBox_max_dist_trakty.value()
 
         self._run_check_logic(layer, scope_geom, auto_fix, limit_distance, max_distance, 'trakty')
@@ -223,7 +252,7 @@ class StycznoscWierzcholkowWidget(QWidget, FORM_CLASS):
         if layer.isEditable(): return self.output_widget.log_error(f"Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
 
         auto_fix = self.checkBox_auto_fix_pe.isChecked()
-        limit_distance = not self.groupBox_experimental_pe.isChecked()
+        limit_distance = not self.checkBox_disable_range_pe.isChecked()
         max_distance = self.spinBox_max_dist_pe.value()
 
         self._run_check_logic(layer, scope_geom, auto_fix, limit_distance, max_distance, 'pe')

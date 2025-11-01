@@ -159,6 +159,9 @@ class DuplicatesWidget(QWidget):
         self.layer_combobox = QComboBox()
         self.layer_combobox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         layer_layout.addWidget(self.layer_combobox)
+        self.show_all_layers_checkbox = QCheckBox("Wyświetl na liście wszystkie istniejące warstwy")
+        self.show_all_layers_checkbox.setChecked(False)
+        layer_layout.addWidget(self.show_all_layers_checkbox)
         settings_layout.addLayout(layer_layout)
 
         criteria_groupbox = QGroupBox("Uznaj za dubel, jeśli obiekty mają:")
@@ -218,6 +221,7 @@ class DuplicatesWidget(QWidget):
         self.zoom_to_feature_button.clicked.connect(self._on_zoom_to_feature_clicked)
         self.results_table.itemSelectionChanged.connect(self._update_button_states)
         self.layer_combobox.currentIndexChanged.connect(self._on_layer_changed)
+        self.show_all_layers_checkbox.toggled.connect(self._populate_layers_combobox)
 
     def refresh_data(self):
         self.output_widget.log_info("Odświeżanie list...")
@@ -440,17 +444,80 @@ class DuplicatesWidget(QWidget):
     def _populate_zakres_combobox(self):
         self.zakres_combo_box.clear()
         zakres_layer_list = QgsProject.instance().mapLayersByName("zakres_zadania")
-        if not zakres_layer_list: self.output_widget.log_error("Nie znaleziono warstwy 'zakres_zadania'."); return
+        if not zakres_layer_list:
+            self.output_widget.log_error("Nie znaleziono warstwy 'zakres_zadania'.")
+            return
+        
         zakres_layer = zakres_layer_list[0]
-        for feature in zakres_layer.getFeatures():
-            try: self.zakres_combo_box.addItem(feature["nazwa"], feature.geometry())
-            except KeyError: self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'."); self.zakres_combo_box.clear(); break
+        
+        scopes = []
+        try:
+            # Upewnij się, że atrybut 'nazwa' istnieje
+            if "nazwa" not in zakres_layer.fields().names():
+                self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
+                return
+
+            for feature in zakres_layer.getFeatures():
+                # Dodajemy tylko te zakresy, które mają nazwę
+                if feature["nazwa"]:
+                    scopes.append((feature["nazwa"], feature.geometry()))
+        except Exception as e:
+            self.output_widget.log_error(f"Błąd podczas wczytywania zakresów: {e}")
+            return
+
+        # Sortowanie listy zakresów alfabetycznie po nazwie
+        scopes.sort(key=lambda x: x[0])
+
+        # Dodanie posortowanych elementów do comboboxa
+        for name, geom in scopes:
+            self.zakres_combo_box.addItem(name, geom)
 
     def _populate_layers_combobox(self):
         self.layer_combobox.clear()
-        layers = QgsProject.instance().mapLayers().values()
-        vector_layers = [layer for layer in layers if isinstance(layer, QgsVectorLayer)]
-        for layer in vector_layers: self.layer_combobox.addItem(layer.name(), layer)
+
+        # Load essential layers list
+        essential_layers_names = []
+        try:
+            json_path = os.path.join(os.path.dirname(__file__), '..', 'templates', 'lista_grup_warstw.json')
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            essential_layers_names = data.get("PROJECT_ESSENTIAL_LAYERS", [])
+        except Exception as e:
+            self.output_widget.log_error(f"OSTRZEŻENIE: Nie udało się wczytać listy warstw podstawowych z pliku .json: {e}")
+
+        # Get all vector layers from the project
+        all_project_layers = [layer for layer in QgsProject.instance().mapLayers().values() if isinstance(layer, QgsVectorLayer)]
+
+        if not self.show_all_layers_checkbox.isChecked():
+            # Default view: Show only essential layers
+            essential_project_layers = [layer for layer in all_project_layers if layer.name() in essential_layers_names]
+            essential_project_layers.sort(key=lambda l: l.name())
+            
+            for layer in essential_project_layers:
+                self.layer_combobox.addItem(layer.name(), layer)
+        else:
+            # Expanded view: Show all layers
+            essential_project_layers = []
+            other_project_layers = []
+            
+            for layer in all_project_layers:
+                if layer.name() in essential_layers_names:
+                    essential_project_layers.append(layer)
+                else:
+                    other_project_layers.append(layer)
+
+            # Sort both lists alphabetically
+            essential_project_layers.sort(key=lambda l: l.name())
+            other_project_layers.sort(key=lambda l: l.name())
+
+            # Populate combobox
+            for layer in essential_project_layers:
+                self.layer_combobox.addItem(layer.name(), layer)
+            
+            if other_project_layers:
+                self.layer_combobox.insertSeparator(self.layer_combobox.count())
+                for layer in other_project_layers:
+                    self.layer_combobox.addItem(layer.name(), layer)
 
     def _is_in_scope(self, geom, scope_geom):
         if not geom or not scope_geom or not geom.intersects(scope_geom): return False
@@ -536,6 +603,9 @@ class InvalidGeometriesWidget(QWidget):
         self.layer_combobox = QComboBox()
         self.layer_combobox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         layer_layout.addWidget(self.layer_combobox)
+        self.show_all_layers_checkbox = QCheckBox("Wyświetl na liście wszystkie istniejące warstwy")
+        self.show_all_layers_checkbox.setChecked(False)
+        layer_layout.addWidget(self.show_all_layers_checkbox)
         settings_layout.addLayout(layer_layout)
 
         check_layout = QHBoxLayout()
@@ -583,6 +653,7 @@ class InvalidGeometriesWidget(QWidget):
         self.zoom_to_feature_button.clicked.connect(self._on_zoom_to_feature_clicked)
         self.results_table.itemSelectionChanged.connect(self._update_button_states)
         self.layer_combobox.currentIndexChanged.connect(self._on_layer_changed)
+        self.show_all_layers_checkbox.toggled.connect(self._populate_layers_combobox)
 
     def refresh_data(self):
         self.output_widget.log_info("Odświeżanie list...")
@@ -808,14 +879,77 @@ class InvalidGeometriesWidget(QWidget):
     def _populate_zakres_combobox(self):
         self.zakres_combo_box.clear()
         zakres_layer_list = QgsProject.instance().mapLayersByName("zakres_zadania")
-        if not zakres_layer_list: self.output_widget.log_error("Nie znaleziono warstwy 'zakres_zadania'."); return
+        if not zakres_layer_list:
+            self.output_widget.log_error("Nie znaleziono warstwy 'zakres_zadania'.")
+            return
+        
         zakres_layer = zakres_layer_list[0]
-        for feature in zakres_layer.getFeatures():
-            try: self.zakres_combo_box.addItem(feature["nazwa"], feature.geometry())
-            except KeyError: self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'."); self.zakres_combo_box.clear(); break
+        
+        scopes = []
+        try:
+            # Upewnij się, że atrybut 'nazwa' istnieje
+            if "nazwa" not in zakres_layer.fields().names():
+                self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
+                return
+
+            for feature in zakres_layer.getFeatures():
+                # Dodajemy tylko te zakresy, które mają nazwę
+                if feature["nazwa"]:
+                    scopes.append((feature["nazwa"], feature.geometry()))
+        except Exception as e:
+            self.output_widget.log_error(f"Błąd podczas wczytywania zakresów: {e}")
+            return
+
+        # Sortowanie listy zakresów alfabetycznie po nazwie
+        scopes.sort(key=lambda x: x[0])
+
+        # Dodanie posortowanych elementów do comboboxa
+        for name, geom in scopes:
+            self.zakres_combo_box.addItem(name, geom)
 
     def _populate_layers_combobox(self):
         self.layer_combobox.clear()
-        layers = QgsProject.instance().mapLayers().values()
-        vector_layers = [layer for layer in layers if isinstance(layer, QgsVectorLayer)]
-        for layer in vector_layers: self.layer_combobox.addItem(layer.name(), layer)
+
+        # Load essential layers list
+        essential_layers_names = []
+        try:
+            json_path = os.path.join(os.path.dirname(__file__), '..', 'templates', 'lista_grup_warstw.json')
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            essential_layers_names = data.get("PROJECT_ESSENTIAL_LAYERS", [])
+        except Exception as e:
+            self.output_widget.log_error(f"OSTRZEŻENIE: Nie udało się wczytać listy warstw podstawowych z pliku .json: {e}")
+
+        # Get all vector layers from the project
+        all_project_layers = [layer for layer in QgsProject.instance().mapLayers().values() if isinstance(layer, QgsVectorLayer)]
+
+        if not self.show_all_layers_checkbox.isChecked():
+            # Default view: Show only essential layers
+            essential_project_layers = [layer for layer in all_project_layers if layer.name() in essential_layers_names]
+            essential_project_layers.sort(key=lambda l: l.name())
+            
+            for layer in essential_project_layers:
+                self.layer_combobox.addItem(layer.name(), layer)
+        else:
+            # Expanded view: Show all layers
+            essential_project_layers = []
+            other_project_layers = []
+            
+            for layer in all_project_layers:
+                if layer.name() in essential_layers_names:
+                    essential_project_layers.append(layer)
+                else:
+                    other_project_layers.append(layer)
+
+            # Sort both lists alphabetically
+            essential_project_layers.sort(key=lambda l: l.name())
+            other_project_layers.sort(key=lambda l: l.name())
+
+            # Populate combobox
+            for layer in essential_project_layers:
+                self.layer_combobox.addItem(layer.name(), layer)
+            
+            if other_project_layers:
+                self.layer_combobox.insertSeparator(self.layer_combobox.count())
+                for layer in other_project_layers:
+                    self.layer_combobox.addItem(layer.name(), layer)

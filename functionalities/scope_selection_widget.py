@@ -74,7 +74,7 @@ class ScopeSelectionWidget(QWidget, FORM_CLASS):
     def populate_scopes(self, scopes: list):
         self.scope_combobox.clear()
         if scopes:
-            self.scope_combobox.addItems(scopes)
+            self.scope_combobox.addItems(sorted(scopes))
         else:
             self.scope_combobox.addItem("Brak dostępnych zakresów")
             self.scope_combobox.setEnabled(False)

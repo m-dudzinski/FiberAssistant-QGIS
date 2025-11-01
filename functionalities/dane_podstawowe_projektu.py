@@ -75,14 +75,23 @@ class DanePodstawoweProjektuWidget(QWidget, FORM_CLASS):
             return
         if len(zakres_layer_list) > 1:
             self.output_widget.log_warning("Znaleziono więcej niż jedną warstwę o nazwie 'zakres_zadania'. Używana będzie pierwsza z listy.")
+        
         zakres_layer = zakres_layer_list[0]
+
+        if "nazwa" not in zakres_layer.fields().names():
+            self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
+            return
+
+        features_to_add = []
         for feature in zakres_layer.getFeatures():
-            try:
-                self.zakres_combo_box.addItem(feature["nazwa"], feature.geometry())
-            except KeyError:
-                self.output_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
-                self.zakres_combo_box.clear()
-                break
+            if feature.attribute("nazwa"):
+                features_to_add.append((feature["nazwa"], feature.geometry()))
+
+        features_to_add.sort(key=lambda f: f[0])
+
+        for nazwa, geom in features_to_add:
+            self.zakres_combo_box.addItem(nazwa, geom)
+
         self.output_widget.log_info(f"Znaleziono {self.zakres_combo_box.count()} zakresów.")
 
     def _populate_layers_list(self):

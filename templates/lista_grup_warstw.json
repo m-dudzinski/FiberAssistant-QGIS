@@ -1,7 +1,39 @@
 {
-	"CABLE_LAYERS": ["kable", "kable_raport", "wybudowane_kable", "budowa_kable", "kable_niewybudowane"],
-	"OSLONY_LAYERS": ["obiekty_osłonowe"],
-	"TRAKT_LAYERS": ["trakt", "wybudowane_trakty"],
-	"INFRASTRUCTURE_LAYERS": ["nN_nn", "slupy_opl", "studnie_opl", "obiekty_punktowe"],
-	"ADDRESS_LAYERS": ["lista_pa_brzeski_calosc"]
+	"CABLE_LAYERS": [
+		"kable",
+		"kable_raport",
+		"wybudowane_kable",
+		"budowa_kable",
+		"kable_niewybudowane"
+	],
+	"OSLONY_LAYERS": [
+		"obiekty_osłonowe"
+	],
+	"TRAKT_LAYERS": [
+		"trakt",
+		"wybudowane_trakty"
+	],
+	"INFRASTRUCTURE_LAYERS": [
+		"nN_nn",
+		"slupy_opl",
+		"studnie_opl",
+		"obiekty_punktowe"
+	],
+	"ADDRESS_LAYERS": [
+		"lista_pa_brzeski_calosc"
+	],
+	"PROJECT_ESSENTIAL_LAYERS": [
+		"kable",
+		"lista_pa",
+		"punkty_elastycznosci",
+		"trakt",
+		"obiekty_punktowe",
+		"obiekty_osłonowe",
+		"studnie_opl",
+		"slupy_opl",
+		"nN_nn",
+		"zakres_zadania",
+		"zakres_olt",
+		"zakres_splitera"
+	]
 }

@@ -1,4 +1,5 @@
 import os
+import json
 import csv
 from qgis.PyQt import uic
 from qgis.PyQt.QtWidgets import (QWidget, QVBoxLayout, QTableWidgetItem, QApplication, 
@@ -63,11 +64,18 @@ class WyszukiwarkaWidget(QWidget, FORM_CLASS):
         left_column_layout.addRow(self.attribute_label, self.attribute_combobox)
         left_column_layout.addRow(self.value_label, self.value_lineedit)
         
-        search_options_layout = QHBoxLayout()
-        search_options_layout.addWidget(self.exact_match_checkbox)
-        search_options_layout.addStretch()
-        search_options_layout.addWidget(self.search_button)
-        left_column_layout.addRow(search_options_layout)
+        self.show_all_layers_checkbox = QCheckBox("Wyświetl na liście wszystkie istniejące warstwy")
+        self.show_all_layers_checkbox.setChecked(False)
+
+        checkboxes_layout = QVBoxLayout()
+        checkboxes_layout.addWidget(self.exact_match_checkbox)
+        checkboxes_layout.addWidget(self.show_all_layers_checkbox)
+
+        search_controls_layout = QHBoxLayout()
+        search_controls_layout.addLayout(checkboxes_layout)
+        search_controls_layout.addStretch()
+        search_controls_layout.addWidget(self.search_button)
+        left_column_layout.addRow(search_controls_layout)
 
         right_column_widget = QWidget()
         right_column_layout = QVBoxLayout(right_column_widget)
@@ -135,6 +143,7 @@ class WyszukiwarkaWidget(QWidget, FORM_CLASS):
         self.copy_button.clicked.connect(self._on_copy_to_clipboard_clicked)
         self.export_button.clicked.connect(self._on_export_to_csv_clicked)
         self.filter_checkbox.toggled.connect(self._on_toggle_filter)
+        self.show_all_layers_checkbox.toggled.connect(self._populate_layers)
 
     def _on_toggle_filter(self, checked):
         self.filter_attribute_label.setEnabled(checked)
@@ -145,11 +154,53 @@ class WyszukiwarkaWidget(QWidget, FORM_CLASS):
 
     def _populate_layers(self):
         self.layer_combobox.clear()
-        layers = QgsProject.instance().mapLayers().values()
-        vector_layers = [layer for layer in layers if isinstance(layer, QgsVectorLayer)]
-        for layer in vector_layers:
-            self.layer_combobox.addItem(layer.name(), layer)
-        self.logger.log_dev(self.FUNCTIONALITY_NAME, 0, "FA", f"Znaleziono i wczytano {len(vector_layers)} warstw wektorowych.")
+
+        # Load essential layers list
+        essential_layers_names = []
+        try:
+            json_path = os.path.join(os.path.dirname(__file__), '..', 'templates', 'lista_grup_warstw.json')
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            essential_layers_names = data.get("PROJECT_ESSENTIAL_LAYERS", [])
+        except Exception as e:
+            self.logger.log_user(f"OSTRZEŻENIE: Nie udało się wczytać listy warstw podstawowych z pliku .json: {e}")
+
+        # Get all vector layers from the project
+        all_project_layers = [layer for layer in QgsProject.instance().mapLayers().values() if isinstance(layer, QgsVectorLayer)]
+
+        if not self.show_all_layers_checkbox.isChecked():
+            # Default view: Show only essential layers
+            essential_project_layers = [layer for layer in all_project_layers if layer.name() in essential_layers_names]
+            essential_project_layers.sort(key=lambda l: l.name())
+            
+            for layer in essential_project_layers:
+                self.layer_combobox.addItem(layer.name(), layer)
+            self.logger.log_dev(self.FUNCTIONALITY_NAME, 0, "FA", f"Wyświetlono {len(essential_project_layers)} warstw podstawowych.")
+        else:
+            # Expanded view: Show all layers
+            essential_project_layers = []
+            other_project_layers = []
+            
+            for layer in all_project_layers:
+                if layer.name() in essential_layers_names:
+                    essential_project_layers.append(layer)
+                else:
+                    other_project_layers.append(layer)
+
+            # Sort both lists alphabetically
+            essential_project_layers.sort(key=lambda l: l.name())
+            other_project_layers.sort(key=lambda l: l.name())
+
+            # Populate combobox
+            for layer in essential_project_layers:
+                self.layer_combobox.addItem(layer.name(), layer)
+            
+            if other_project_layers:
+                self.layer_combobox.insertSeparator(self.layer_combobox.count())
+                for layer in other_project_layers:
+                    self.layer_combobox.addItem(layer.name(), layer)
+            
+            self.logger.log_dev(self.FUNCTIONALITY_NAME, 0, "FA", f"Wyświetlono wszystkie {len(all_project_layers)} warstwy wektorowe.")
 
     def _on_layer_changed(self, index):
         self.attribute_combobox.clear()

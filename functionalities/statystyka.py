@@ -111,13 +111,21 @@ class StatystykaWidget(QWidget, FORM_CLASS):
             self.logs_widget.log_error("Nie znaleziono warstwy 'zakres_zadania'.")
             return
 
-        for feature in layer[0].getFeatures():
-            try:
-                self.scope_combobox.addItem(feature.attribute("nazwa"), feature)
-            except KeyError:
-                self.logs_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
-                self.scope_combobox.clear()
-                break
+        zakres_layer = layer[0]
+        if "nazwa" not in zakres_layer.fields().names():
+            self.logs_widget.log_error("Warstwa 'zakres_zadania' nie posiada atrybutu 'nazwa'.")
+            return
+
+        features_to_add = []
+        for feature in zakres_layer.getFeatures():
+            if feature.attribute("nazwa"):
+                features_to_add.append((feature["nazwa"], feature))
+
+        features_to_add.sort(key=lambda f: f[0])
+
+        for nazwa, feature in features_to_add:
+            self.scope_combobox.addItem(nazwa, feature)
+
         self.logs_widget.log_info(f"Znaleziono {self.scope_combobox.count()} zakresów.")
 
     def _toggle_all_checkboxes(self, state):
