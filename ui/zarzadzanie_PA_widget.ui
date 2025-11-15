@@ -2,17 +2,426 @@
 <ui version="4.0">
  <class>ZarzadzaniePAWidget</class>
  <widget class="QWidget" name="ZarzadzaniePAWidget">
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_main">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Funkcjonalność w trakcie budowy..</string>
+    <layout class="QHBoxLayout" name="horizontalLayout_zakres">
+     <item>
+      <widget class="QLabel" name="label_zakres">
+       <property name="text">
+        <string>Wybierz zakres:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="zakres_combo_box">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="refresh_button">
+       <property name="toolTip">
+        <string>Odśwież listę zakresów</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/options_icons/options_icon_refresh.png</normaloff>:/icons/options_icons/options_icon_refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_przypisania_atrybutow">
+       <attribute name="title">
+        <string>Przypisania atrybutów</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_tab">
+        <item>
+         <widget class="QGroupBox" name="groupBox_dzialka">
+          <property name="title">
+           <string>Przypisz działkę do PA</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <layout class="QFormLayout" name="formLayout_dzialka">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_warstwa_dzialek">
+             <property name="text">
+              <string>Warstwa z działkami:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="dzialki_layer_combobox"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_atrybut_dzialki">
+             <property name="text">
+              <string>Atrybut z numerem działki:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="dzialki_attribute_combobox"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_zasilanie">
+          <property name="title">
+           <string>Przypisz zasilanie PA</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_zasilanie">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_zasilanie_cb">
+             <item>
+              <widget class="QCheckBox" name="cb_przypisz_pe">
+               <property name="text">
+                <string>przypisz PE z którego podłączany jest adres</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="cb_przypisz_md_split">
+               <property name="text">
+                <string>przypisz PE ze spliterem 2 stopnia, który zasila adres</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="cb_przypisz_spl_i_rz">
+               <property name="text">
+                <string>przypisz PE ze spliterem 1 stopnia, który zasila adres</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_zasilanie_info">
+             <property name="text">
+              <string>&lt;b>Uwaga:&lt;/b> informacje o zasilaniu PA pobierane są z atrybutów kabla abonenckiego doprowadzonego do PA - te dane powinny zostać uzupełnione przed uruchomieniem funkcji.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_strategia">
+          <property name="title">
+           <string>Strategia aktualizacji</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_strategia">
+           <item>
+            <widget class="QRadioButton" name="nadpisz_radio">
+             <property name="text">
+              <string>Nadpisz istniejące wartości</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="pomijaj_radio">
+             <property name="text">
+              <string>Pomijaj istniejące wartości</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_wykluczanie_pa">
+       <attribute name="title">
+        <string>Wykluczanie PA</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_wykluczanie">
+        <item>
+         <widget class="QGroupBox" name="groupBox_oznaczenie">
+          <property name="title">
+           <string>Oznaczenie adresów</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_oznaczenie">
+           <item>
+            <widget class="QRadioButton" name="radio_do_wykluczenia">
+             <property name="text">
+              <string>Do wykluczenia (X_dubel = TAK)</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radio_do_weryfikacji">
+             <property name="text">
+              <string>Do weryfikacji (X_weryfik = TAK)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_identyfikator">
+          <property name="title">
+           <string>Wybór identyfikatora</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_identyfikator">
+           <item>
+            <widget class="QRadioButton" name="radio_id_budynku">
+             <property name="text">
+              <string>Po atrybucie Id_budynku</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radio_x_id_tok">
+             <property name="text">
+              <string>Po atrybucie X_ID_TOK</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="tabWidget_input">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab_plik">
+           <attribute name="title">
+            <string>Wczytaj z pliku</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_plik">
+            <item>
+             <widget class="QLineEdit" name="file_path_line_edit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="browse_button">
+              <property name="text">
+               <string>Przeglądaj...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_recznie">
+           <attribute name="title">
+            <string>Wprowadź ręcznie</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_recznie">
+            <item>
+             <widget class="QTextEdit" name="manual_input_text_edit">
+              <property name="placeholderText">
+               <string>Wprowadź identyfikatory oddzielone przecinkiem, średnikiem lub nową linią...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_strategia_wykluczanie">
+          <property name="title">
+           <string>Strategia aktualizacji</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_strategia_wykluczanie">
+           <item>
+            <widget class="QRadioButton" name="nadpisz_radio_wykluczanie">
+             <property name="text">
+              <string>Nadpisz istniejące wartości</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="pomijaj_radio_wykluczanie">
+             <property name="text">
+              <string>Pomijaj istniejące wartości</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_wykluczanie">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_aktualizuj_mr">
+       <attribute name="title">
+        <string>Aktualizuj MR</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_mr">
+        <item>
+         <widget class="QGroupBox" name="groupBox_plik_mr">
+          <property name="title">
+           <string>Plik z danymi</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_plik_mr">
+           <item>
+            <widget class="QLineEdit" name="file_path_line_edit_mr">
+             <property name="placeholderText">
+              <string>Wybierz plik Excel (.xlsx)...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="browse_button_mr">
+             <property name="text">
+              <string>Przeglądaj...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_strategia_mr">
+          <property name="title">
+           <string>Strategia aktualizacji atrybutu MR</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_strategia_mr">
+           <item>
+            <widget class="QRadioButton" name="nadpisz_radio_mr">
+             <property name="text">
+              <string>Nadpisz istniejące wartości</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="pomijaj_radio_mr">
+             <property name="text">
+              <string>Pomijaj obiekty z istniejącą wartością</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_mr">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="output_widget_placeholder" native="true"/>
     </widget>
    </item>
   </layout>
  </widget>
+ <resources/>
+ <connections/>
 </ui>

@@ -14,8 +14,8 @@ ENABLED_FUNCTIONALITIES = [
     "przeliczanie_dlugosci",             # 4
     "dane_podstawowe_projektu",          # 5
     # "zarzadzanie_kablami",               # 6
-    # "zarzadzanie_PA",                    # 7
-    # "zarzadzanie_PE",                    # 8
+    "zarzadzanie_PA",                    # 7
+    "zarzadzanie_PE",                    # 8
     # "karta_krosowan",                    # 9
     "stycznosc_wierzcholkow",            # 10
     # "wykorzystanie_infrastruktury",      # 11
@@ -34,5 +34,7 @@ RUN_BUTTON_WHITELIST = [
     "Statystyka",
     "Dane podstawowe projektu",
     "Przeliczanie długości",
-    "Styczność wierzchołków"
+    "Styczność wierzchołków",
+    "Zarządzanie PA",
+    "Zarządzanie PE",
 ]

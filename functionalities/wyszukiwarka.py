@@ -223,10 +223,6 @@ class WyszukiwarkaWidget(QWidget, FORM_CLASS):
             self.logger.log_user("BŁĄD: Nie wybrano warstwy lub wskazana warstwa nie istnieje już w projekcie.")
             return
 
-        if layer.isEditable():
-            self.logger.log_user(f"BŁĄD: Warstwa '{layer.name()}' jest w trybie edycji. Wyłącz tryb edycji, aby kontynuować.")
-            return
-
         if layer.featureCount() == 0:
             self.logger.log_user(f"INFORMACJA: Warstwa '{layer.name()}' jest pusta (nie zawiera żadnych obiektów).")
             return
