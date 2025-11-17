@@ -16,7 +16,7 @@ from .functionalities.statystyka import StatystykaWidget
 from .functionalities.walidator import WalidatorWidget
 from .functionalities.przeliczanie_dlugosci import PrzeliczanieDlugosciWidget
 from .functionalities.dane_podstawowe_projektu import DanePodstawoweProjektuWidget
-from .functionalities.zarzadzanie_kablami import ZarzadzanieKabliWidget
+from .functionalities.zarzadzanie_kablami import ZarzadzanieKablamiWidget
 from .functionalities.zarzadzanie_PA import ZarzadzaniePAWidget
 from .functionalities.zarzadzanie_PE import ZarzadzaniePEWidget
 from .functionalities.karta_krosowan import KartaKrosowanWidget
@@ -69,8 +69,8 @@ class FiberAssistantDialog(QDialog, FORM_CLASS):
             "statystyka": {"class": StatystykaWidget, "name": "Statystyka", "icon": ":/icons/functions_icons/function_icon_statystyka.png", "description": "Przygotowanie statystyki szczegółowej projektu.", "init": lambda: StatystykaWidget(self)},
             "walidator": {"class": WalidatorWidget, "name": "Walidator", "icon": ":/icons/functions_icons/function_icon_walidator.png", "description": "Sprawdzanie struktury projektu względem wzorca.", "init": lambda: WalidatorWidget(self)},
             "przeliczanie_dlugosci": {"class": PrzeliczanieDlugosciWidget, "name": "Przeliczanie długości", "icon": ":/icons/functions_icons/function_icon_przeliczanie_dlugosci.png", "description": "Kalkulator długości elementów liniowych.", "init": lambda: PrzeliczanieDlugosciWidget(self.iface, self)},
-            "dane_podstawowe_projektu": {"class": DanePodstawoweProjektuWidget, "name": "Dane podstawowe projektu", "icon": ":/icons/functions_icons/function_icon_dane_podstawowe_projektu.png", "description": "Masowe wprowadzanie danych projektu.", "init": lambda: DanePodstawoweProjektuWidget(self)},
-            "zarzadzanie_kablami": {"class": ZarzadzanieKabliWidget, "name": "Zarządzanie kablami", "icon": ":/icons/functions_icons/function_icon_zarzadzanie_kablami.png", "description": "Masowe ustawianie atrybutów kabli.", "init": lambda: ZarzadzanieKabliWidget(self)},
+            "dane_podstawowe_projektu": {"class": DanePodstawoweProjektuWidget, "name": "Dane podstawowe projektu", "icon": ":/icons/functions_icons/function_icon_dane_podstawowe_projektu.png", "description": "Masowe wprowadzanie danych projektu.", "init": lambda: DanePodstawoweProjektuWidget(self.iface, self)},
+            "zarzadzanie_kablami": {"class": ZarzadzanieKablamiWidget, "name": "Zarządzanie kablami", "icon": ":/icons/functions_icons/function_icon_zarzadzanie_kablami.png", "description": "Masowe ustawianie atrybutów kabli.", "init": lambda: ZarzadzanieKablamiWidget(self.iface, self)},
             "zarzadzanie_PA": {"class": ZarzadzaniePAWidget, "name": "Zarządzanie PA", "icon": ":/icons/functions_icons/function_icon_zarzadzanie_PA.png", "description": "Masowe ustawianie atrybutów PA.", "init": lambda: ZarzadzaniePAWidget(self)},
             "zarzadzanie_PE": {"class": ZarzadzaniePEWidget, "name": "Zarządzanie PE", "icon": ":/icons/functions_icons/function_icon_zarzadzanie_PE.png", "description": "Masowe ustawianie atrybutów dla PE.", "init": lambda: ZarzadzaniePEWidget(self)},
             "karta_krosowan": {"class": KartaKrosowanWidget, "name": "Karta krosowań", "icon": ":/icons/functions_icons/function_icon_karta_krosowan.png", "description": "Przypisywanie adresom portów zasilających.", "init": lambda: KartaKrosowanWidget(self)},

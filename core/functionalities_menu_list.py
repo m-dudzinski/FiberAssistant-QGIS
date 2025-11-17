@@ -13,7 +13,7 @@ ENABLED_FUNCTIONALITIES = [
     # "walidator",                         # 3
     "przeliczanie_dlugosci",             # 4
     "dane_podstawowe_projektu",          # 5
-    # "zarzadzanie_kablami",               # 6
+    "zarzadzanie_kablami",               # 6
     "zarzadzanie_PA",                    # 7
     "zarzadzanie_PE",                    # 8
     # "karta_krosowan",                    # 9
@@ -37,4 +37,5 @@ RUN_BUTTON_WHITELIST = [
     "Styczność wierzchołków",
     "Zarządzanie PA",
     "Zarządzanie PE",
+    "Zarządzanie kablami",
 ]
