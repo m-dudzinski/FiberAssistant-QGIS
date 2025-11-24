@@ -129,6 +129,27 @@ class FiberAssistantDialog(QDialog, FORM_CLASS):
         logger.debug("Tryb debugowania aktywny.")
         self.set_status_ready()
 
+    def keyPressEvent(self, event):
+        """Handle key press events for the entire dialog."""
+        if event.key() in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
+            current_widget = self._get_current_func_widget()
+            
+            # Case 1: Wyszukiwarka is active
+            if isinstance(current_widget, WyszukiwarkaWidget):
+                # Manually click its specific search button
+                current_widget.search_button.click()
+                event.accept()
+                return
+
+            # Case 2: Another widget is active, and global run button is visible
+            elif self.run_button.isVisible():
+                self.run_button.click()
+                event.accept()
+                return
+                
+        # For any other key, or if Enter wasn't handled, call the base implementation.
+        super(FiberAssistantDialog, self).keyPressEvent(event)
+
     def _on_menu_row_changed(self, current_row):
         # Deactivate the old widget's logger
         if self.previous_row > -1 and self.previous_row < len(self.functionalities):

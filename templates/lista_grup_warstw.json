@@ -35,5 +35,9 @@
 		"zakres_zadania",
 		"zakres_olt",
 		"zakres_splitera"
+	],
+	"SET_USAGE_LAYERS": [
+		"punkty_elastycznosci",
+		"kable"
 	]
 }

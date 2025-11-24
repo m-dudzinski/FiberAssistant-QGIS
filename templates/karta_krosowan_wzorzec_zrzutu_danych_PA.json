@@ -1,19 +1,15 @@
 {
-    "columns": [
-        {"name": "LP", "attribute": "LP"},
-        {"name": "ID BUDYNKU", "attribute": "Id_budynku"},
-        {"name": "Gmina", "attribute": "Gmina"},
-        {"name": "Miejscowość", "attribute": "Miejscowos"},
-        {"name": "Ulica", "attribute": "Ulica"},
-        {"name": "Nr", "attribute": "Numer porz"},
-        {"name": "Liczba lokali", "attribute": "Licz_lokal"},
-        {"name": "Rodzaj punktu", "attribute": "Rodzaj pun"},
-        {"name": "MR", "attribute": "MR"},
-        {"name": "Zadanie", "attribute": "Zadanie"},
-        {"name": "OLT", "attribute": "Id_wezla"},
-        {"name": "Spliter 1 st.", "attribute": "X_SPL-i-rz"},
-        {"name": "Spliter 2 st.", "attribute": "X_MD_SPLIT"},
-        {"name": "PE podpięcia", "attribute": "X_PE"},
-        {"name": "Nr portu OLT", "attribute": "X_port_olt"}
+    "required_columns": [
+        "OLT",
+        "NR OLT",
+        "NR KARTY",
+        "NR SLOTU",
+        "NR PORTU",
+        "NR ODF",
+        "NR POLA",
+        "X_SPL-i-rz",
+        "X_MD_SPLIT",
+        "X_PE",
+        "X_port_olt"
     ]
 }

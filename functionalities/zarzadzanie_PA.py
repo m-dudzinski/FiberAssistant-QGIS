@@ -617,6 +617,7 @@ class ZarzadzaniePAWidget(QWidget, FORM_CLASS):
     def _load_mr_data_from_excel(self, file_path):
         stats = defaultdict(int)
         data = {}
+        workbook = None
         try:
             workbook = openpyxl.load_workbook(file_path, data_only=True)
             sheet = workbook.active
@@ -648,6 +649,9 @@ class ZarzadzaniePAWidget(QWidget, FORM_CLASS):
         except Exception as e:
             self.output_widget.log_error(f"Wystąpił błąd podczas odczytu pliku Excel: {e}")
             return None, None
+        finally:
+            if workbook:
+                workbook.close()
         
         return data, stats
 
@@ -736,6 +740,8 @@ class ZarzadzaniePAWidget(QWidget, FORM_CLASS):
             if not openpyxl:
                 self.output_widget.log_error("Biblioteka 'openpyxl' nie jest zainstalowana. Użyj pliku CSV lub zainstaluj bibliotekę (pip install openpyxl).")
                 return [], []
+            
+            workbook = None
             try:
                 workbook = openpyxl.load_workbook(file_path)
                 sheet = workbook.active
@@ -746,6 +752,9 @@ class ZarzadzaniePAWidget(QWidget, FORM_CLASS):
             except Exception as e:
                 self.output_widget.log_error(f"Błąd odczytu pliku XLSX: {e}")
                 return [], []
+            finally:
+                if workbook:
+                    workbook.close()
         
         cleaned_identifiers = [str(val).strip() for val in raw_identifiers if str(val).strip()]
         counts = defaultdict(int)

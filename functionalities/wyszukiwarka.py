@@ -43,6 +43,9 @@ class WyszukiwarkaWidget(QWidget, FORM_CLASS):
         self.logger.set_user_message_widget(self.output_widget.output_console)
 
     def _setup_layouts_and_widgets(self):
+        # --- Setup results table ---
+        self.results_table.setSortingEnabled(True)
+
         # --- Add new buttons to results groupbox ---
         self.export_button = QPushButton("Eksportuj do .csv")
         self.export_button.setToolTip("Eksportuj wyniki do pliku CSV (.csv)")

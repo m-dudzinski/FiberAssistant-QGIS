@@ -2,17 +2,138 @@
 <ui version="4.0">
  <class>WykorzystanieInfrastrukturyWidget</class>
  <widget class="QWidget" name="WykorzystanieInfrastrukturyWidget">
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_main">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Funkcjonalność w trakcie budowy..</string>
+    <layout class="QHBoxLayout" name="horizontalLayout_zakres">
+     <item>
+      <widget class="QLabel" name="label_zakres">
+       <property name="text">
+        <string>Wybierz zakres:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="zakres_combo_box">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="refresh_button">
+       <property name="toolTip">
+        <string>Odśwież listę zakresów</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/options_icons/options_icon_refresh.png</normaloff>:/icons/options_icons/options_icon_refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <widget class="QWidget" name="main_widget" native="true">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="groupBox_layers_to_check">
+         <property name="title">
+          <string>Wybierz warstwy infrastruktury do sprawdzenia</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_infra_layers"/>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_usage_layers">
+         <property name="title">
+          <string>Wybierz warstwy, które świadczą o wykorzystaniu infrastruktury</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_usage_layers"/>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_strategy">
+         <property name="title">
+          <string>Strategia aktualizacji</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_strategy">
+          <item>
+           <widget class="QRadioButton" name="overwrite_radio">
+            <property name="text">
+             <string>Nadpisz istniejące wartości</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="skip_existing_radio">
+            <property name="text">
+             <string>Pomijaj obiekty z istniejącą wartością</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="output_widget_placeholder" native="true"/>
     </widget>
    </item>
   </layout>
  </widget>
+ <resources/>
+ <connections/>
 </ui>

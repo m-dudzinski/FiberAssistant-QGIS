@@ -16,9 +16,9 @@ ENABLED_FUNCTIONALITIES = [
     "zarzadzanie_kablami",               # 6
     "zarzadzanie_PA",                    # 7
     "zarzadzanie_PE",                    # 8
-    # "karta_krosowan",                    # 9
+    "karta_krosowan",                    # 9
     "stycznosc_wierzcholkow",            # 10
-    # "wykorzystanie_infrastruktury",      # 11
+    "wykorzystanie_infrastruktury",      # 11
     # "elementy_niewybudowane",            # 12
     # "raport_miesieczny_qgis",            # 13
     # "raport_polroczny_qgis",             # 14
@@ -38,4 +38,7 @@ RUN_BUTTON_WHITELIST = [
     "Zarządzanie PA",
     "Zarządzanie PE",
     "Zarządzanie kablami",
+    "Karta krosowań",
+    "Wykorzystanie infrastruktury",
+    "Czyszczenie",
 ]

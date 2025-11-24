@@ -558,7 +558,12 @@ class StatystykaWidget(QWidget, FORM_CLASS):
                 for fid in overlapping_fids:
                     f = feat_map.get(fid)
                     if f:
-                        rows.append([f.attribute("id"), f.attribute("nazwa"), f"{f.attribute('dl_tras'):.2f}"])
+                        dl_tras_val = f.attribute('dl_tras')
+                        try:
+                            dl_tras_formatted = f"{float(dl_tras_val):.2f}"
+                        except (TypeError, ValueError):
+                            dl_tras_formatted = "0.00"
+                        rows.append([f.attribute("id"), f.attribute("nazwa"), dl_tras_formatted])
                 final_html_parts.append(self._create_html_table(headers, rows, title=f"Warstwa: {layer_name}"))
             else:
                 rows.append(["<font color='green'>Brak nakładających się obiektów.</font>", ""])
@@ -614,7 +619,12 @@ class StatystykaWidget(QWidget, FORM_CLASS):
                 headers = ["ID", "Nazwa", "Dł. tras. [m]"]
                 rows.append([f"<font color='red'>Znaleziono {len(unconnected_features)} obiektów z wierzchołkami bez styczności:</font>", "", ""])
                 for f in unconnected_features:
-                     rows.append([f.attribute("id"), f.attribute("nazwa"), f"{f.attribute('dl_tras'):.2f}"])
+                     dl_tras_val = f.attribute('dl_tras')
+                     try:
+                         dl_tras_formatted = f"{float(dl_tras_val):.2f}"
+                     except (TypeError, ValueError):
+                         dl_tras_formatted = "0.00"
+                     rows.append([f.attribute("id"), f.attribute("nazwa"), dl_tras_formatted])
                 final_html_parts.append(self._create_html_table(headers, rows, title=f"Warstwa: {layer_name}"))
             else:
                 rows.append(["<font color='green'>Wszystkie obiekty mają zachowaną styczność.</font>", ""])
